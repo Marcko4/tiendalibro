@@ -1,0 +1,367 @@
+/* Modern About Page Styles for BookHub */
+body {
+  background: linear-gradient(120deg, #f4f6fb 60%, #e8eaf6 100%);
+}
+.about-hero {
+  position: relative;
+  width: 100vw;
+  min-height: 260px;
+  background: none;
+  overflow: hidden;
+  margin-bottom: 2em;
+}
+.about-hero-bg {
+  position: absolute;
+  width: 100vw;
+  height: 260px;
+  left: 0;
+  top: 0;
+  background: linear-gradient(90deg, #6a89cc 60%, #2a3a5a 100%);
+  z-index: 1;
+  border-radius: 0 0 60px 60px/0 0 60px 60px;
+  box-shadow: 0 6px 32px rgba(44, 62, 80, 0.13);
+}
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5em 2em 1.2em 2em;
+  text-align: center;
+}
+.about-hero-title {
+  font-size: 2.7em;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(44, 62, 80, 0.14);
+  letter-spacing: 2px;
+  margin-bottom: 0.4em;
+}
+.about-hero-title span {
+  background: linear-gradient(90deg, #fff 40%, #6a89cc 100%);
+  color: #2a3a5a;
+  padding: 0.08em 0.7em;
+  border-radius: 12px;
+  margin-left: 0.4em;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.1);
+}
+.about-hero-desc {
+  color: #e8eaf6;
+  font-size: 1.25em;
+  font-weight: 500;
+  margin-bottom: 0;
+  text-shadow: 0 1px 8px rgba(44, 62, 80, 0.1);
+}
+
+.about-pulse {
+  animation: aboutPulse 2.6s cubic-bezier(0.43, 0.13, 0.23, 0.96) infinite
+    alternate;
+}
+@keyframes aboutPulse {
+  from {
+    box-shadow: 0 4px 32px rgba(44, 62, 80, 0.09);
+  }
+  to {
+    box-shadow: 0 8px 40px rgba(106, 137, 204, 0.16);
+  }
+}
+
+.about-anim-glow {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -60%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #6a89cc55 0%, #fff0 80%);
+  z-index: 0;
+  filter: blur(2px);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Animaciones generales */
+.animate-fade-in {
+  animation: fadeInAbout 1.1s cubic-bezier(0.43, 0.13, 0.23, 0.96);
+}
+@keyframes fadeInAbout {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeUp 1s forwards;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-flip {
+  opacity: 0;
+  transform: rotateY(70deg) scale(0.95);
+  animation: flipIn 0.8s forwards;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes flipIn {
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+}
+.animate-hero {
+  animation: heroIn 1.2s cubic-bezier(0.43, 0.13, 0.23, 0.96);
+}
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+body {
+  background: linear-gradient(120deg, #f4f6fb 60%, #e8eaf6 100%);
+}
+
+.about-hero {
+  position: relative;
+  width: 100vw;
+  min-height: 260px;
+  background: none;
+  overflow: hidden;
+  margin-bottom: 2em;
+}
+#aboutParticles {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 260px;
+  z-index: 0;
+  pointer-events: none;
+}
+.about-hero-bg {
+  position: absolute;
+  width: 100vw;
+  height: 260px;
+  left: 0;
+  top: 0;
+  background: linear-gradient(90deg, #6a89cc 60%, #2a3a5a 100%);
+  z-index: 1;
+  border-radius: 0 0 60px 60px/0 0 60px 60px;
+  box-shadow: 0 6px 32px rgba(44, 62, 80, 0.13);
+}
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5em 2em 1.2em 2em;
+  text-align: center;
+}
+.about-hero-title {
+  font-size: 2.7em;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(44, 62, 80, 0.14);
+  letter-spacing: 2px;
+  margin-bottom: 0.4em;
+}
+.about-hero-title span {
+  background: linear-gradient(90deg, #fff 40%, #6a89cc 100%);
+  color: #2a3a5a;
+  padding: 0.08em 0.7em;
+  border-radius: 12px;
+  margin-left: 0.4em;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.1);
+}
+.about-hero-desc {
+  color: #e8eaf6;
+  font-size: 1.25em;
+  font-weight: 500;
+  margin-bottom: 0;
+  text-shadow: 0 1px 8px rgba(44, 62, 80, 0.1);
+}
+.about-hero-values {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  margin-top: 2em;
+  flex-wrap: wrap;
+}
+.about-value-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 14px #6a89cc22;
+  min-width: 120px;
+  padding: 1.1em 1.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.08em;
+  color: #2a3a5a;
+  transition: transform 0.2s;
+  margin-bottom: 0.5em;
+}
+.about-value-card:hover {
+  transform: translateY(-6px) scale(1.04) rotate(-2deg);
+  box-shadow: 0 8px 24px #6a89cc44;
+}
+.about-value-icon {
+  font-size: 2.2em;
+  margin-bottom: 0.2em;
+}
+
+.about-pulse {
+  animation: aboutPulse 2.6s cubic-bezier(0.43, 0.13, 0.23, 0.96) infinite
+    alternate;
+}
+@keyframes aboutPulse {
+  from {
+    box-shadow: 0 4px 32px rgba(44, 62, 80, 0.09);
+  }
+  to {
+    box-shadow: 0 8px 40px rgba(106, 137, 204, 0.16);
+  }
+}
+
+.about-modern {
+  max-width: 950px;
+  margin: 2.5em auto 2.5em auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 32px rgba(44, 62, 80, 0.09);
+  padding: 2.5em 2em 2.5em 2em;
+  font-family: "Montserrat", Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.about-title {
+  text-align: center;
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: 0.8em;
+  color: #2a3a5a;
+  letter-spacing: 1px;
+}
+.about-title span {
+  background: linear-gradient(90deg, #6a89cc 0%, #2a3a5a 100%);
+  color: #fff;
+  padding: 0.12em 1.2em;
+  border-radius: 13px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.12);
+}
+.about-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5em 2em;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.about-info {
+  flex: 2 1 340px;
+  min-width: 270px;
+  font-size: 1.08em;
+  color: #2a3a5a;
+  line-height: 1.7;
+}
+.about-objetivo {
+  font-size: 1.13em;
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+.about-objetivos {
+  margin: 0 0 1.2em 0.5em;
+  padding-left: 1.1em;
+  color: #6a89cc;
+  font-size: 1em;
+}
+
+.about-team {
+  flex: 1 1 260px;
+  min-width: 220px;
+  margin-left: 1em;
+}
+.about-team-title {
+  text-align: center;
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #6a89cc;
+  margin-bottom: 0.7em;
+  letter-spacing: 1px;
+}
+.about-team-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+}
+.about-member-card {
+  background: linear-gradient(90deg, #e8eaf6 60%, #6a89cc 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px #6a89cc22;
+  min-width: 170px;
+  padding: 0.8em 1.2em;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.07em;
+  color: #2a3a5a;
+  transition: transform 0.2s, box-shadow 0.2s;
+  gap: 0.8em;
+  border: 2px solid #e8eaf6;
+}
+.about-member-card:hover {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 6px 18px #6a89cc44;
+  border-color: #6a89cc;
+}
+.about-member-avatar {
+  font-size: 2em;
+}
+
+@media (max-width: 900px) {
+  .about-content {
+    flex-direction: column;
+    gap: 1.5em 0;
+  }
+  .about-team {
+    margin-left: 0;
+  }
+}
+@media (max-width: 700px) {
+  .about-modern,
+  .about-container {
+    padding: 1.1em 0.3em;
+  }
+  .about-hero-content {
+    padding: 2.2em 0.5em 1em 0.5em;
+  }
+  .about-content {
+    flex-direction: column;
+    gap: 1.5em 0;
+  }
+  .about-hero-values {
+    gap: 1em;
+  }
+  .about-value-card {
+    min-width: 100px;
+    padding: 0.7em 0.7em;
+    font-size: 0.98em;
+  }
+}

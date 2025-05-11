@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito | TiendaLibro</title>
+  <link rel="stylesheet" href="assets/css/carrito.css">
+</head>
+<body>
+  <main>
+    <section class="carrito-container">
+      <h2>Mi Carrito</h2>
+      <div id="carrito-lista"></div>
+      <div style="margin:18px 0 10px 0;padding:10px 0 10px 0;border-top:1px solid #dfe6e9;">
+        <label style="margin-right:18px;font-weight:600;">Método de pago:</label>
+        <label><input type="radio" name="metodoPago" value="Efectivo" checked> Efectivo</label>
+        <label style="margin-left:20px;"><input type="radio" name="metodoPago" value="POS"> POS (Tarjeta)</label>
+      </div>
+      <button id="confirmar">Confirmar pedido</button>
+    </section>
+  </main>
+  <script src="assets/js/carrito.js"></script>
+</body>
+</html>

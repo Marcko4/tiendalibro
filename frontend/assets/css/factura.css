@@ -1,0 +1,36 @@
+body {
+  background: #f7f7f7;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.factura-container {
+  background: #fff;
+  max-width: 500px;
+  margin: 3em auto;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+h2 {
+  color: #2a3a5a;
+  margin-bottom: 1em;
+}
+#factura-detalle {
+  margin-bottom: 2em;
+  min-height: 120px;
+  font-size: 1.1em;
+}
+button {
+  background: #2a3a5a;
+  color: #fff;
+  border: none;
+  padding: 0.9em 1.5em;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #1f2940;
+}

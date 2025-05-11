@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TiendaLibro - Inicio</title>
+  <link rel="icon" type="image/png" href="../images/LogoBookHub (1).png">
+  <link rel="stylesheet" href="assets/css/index.css">
+</head>
+<body>
+  <header>
+    <div style="display:flex;align-items:center;height:100%;"><img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:130px;object-fit:contain;"></div>
+    <nav>
+      <span id="user-info" style="display:none;margin-left:1em;"></span>
+      <a href="index.html">Inicio</a>
+      <a href="about.html">About</a>
+      <a href="login.html" id="login-link">Login</a>
+      <a href="register.html" id="register-link">Registro</a>
+      <a href="carrito.html" id="carrito-link">Carrito</a>
+      <button id="logout-btn" style="display:none;margin-left:1em;">Logout</button>
+    </nav>
+  </header>
+  <main>
+    <section class="carousel-container">
+      <div class="carousel" id="carousel">
+        <!-- Libros destacados se insertarán aquí con JS -->
+      </div>
+    </section>
+    <section class="destacados">
+      <h2>Libros Disponibles</h2>
+      <div id="libros-destacados"></div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 <span class="logo">BookHub</span></p>
+  </footer>
+  <script src="assets/js/index.js"></script>
+  <script src="assets/js/userSession.js"></script>
+</body>
+</html>

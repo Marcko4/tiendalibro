@@ -1,0 +1,134 @@
+[
+  {
+    "imagen": "Comohacerquetepasencosasbuenas.jpg",
+    "titulo": "Cómo hacer que te pasen cosas buenas",
+    "autor": "Marian Rojas Estapé",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Un libro de autoayuda que explora cómo la actitud positiva y el autoconocimiento pueden mejorar tu vida.",
+    "precio_venta": 230000,
+    "precio_alquiler": 35000,
+    "stock_venta": 10,
+    "stock_alquiler": 5
+  },
+  {
+    "imagen": "Elalquimista.jpg",
+    "titulo": "El Alquimista",
+    "autor": "Paulo Coelho",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Una novela sobre la importancia de perseguir los sueños y escuchar al corazón.",
+    "precio_venta": 210000,
+    "precio_alquiler": 32000,
+    "stock_venta": 7,
+    "stock_alquiler": 5
+  },
+  {
+    "imagen": "Elextranjero.jpg",
+    "titulo": "El Extranjero",
+    "autor": "Albert Camus",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Una obra clásica de la literatura existencialista que explora el absurdo de la vida.",
+    "precio_venta": 220000,
+    "precio_alquiler": 27000,
+    "stock_venta": 4,
+    "stock_alquiler": 4
+  },
+  {
+    "imagen": "Elinversorinteligente.jpg",
+    "titulo": "El Inversor Inteligente",
+    "autor": "Benjamin Graham",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "La biblia del inversor en valor, con consejos para invertir con éxito a largo plazo.",
+    "precio_venta": 410000,
+    "precio_alquiler": 48000,
+    "stock_venta": 3,
+    "stock_alquiler": 2
+  },
+  {
+    "imagen": "Elpoderdelahora.jpg",
+    "titulo": "El Poder del Ahora",
+    "autor": "Eckhart Tolle",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Un libro espiritual que enseña la importancia de vivir el momento presente.",
+    "precio_venta": 260000,
+    "precio_alquiler": 35000,
+    "stock_venta": 6,
+    "stock_alquiler": 3
+  },
+  {
+    "imagen": "Habitosatomicosjpg.jpg",
+    "titulo": "Hábitos Atómicos",
+    "autor": "James Clear",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Guía práctica para formar buenos hábitos, romper los malos y dominar los pequeños comportamientos que conducen al éxito.",
+    "precio_venta": 330000,
+    "precio_alquiler": 42000,
+    "stock_venta": 8,
+    "stock_alquiler": 3
+  },
+  {
+    "imagen": "Lafelicidad.jpg",
+    "titulo": "La Felicidad",
+    "autor": "Benedict Carey",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Explora la ciencia detrás de la felicidad y cómo aplicarla en la vida cotidiana.",
+    "precio_venta": 210000,
+    "precio_alquiler": 32000,
+    "stock_venta": 3,
+    "stock_alquiler": 5
+  },
+  {
+    "imagen": "Lainteligenciaemocional.jpg",
+    "titulo": "La Inteligencia Emocional",
+    "autor": "Daniel Goleman",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Un clásico sobre la importancia de las emociones en el éxito personal y profesional.",
+    "precio_venta": 390000,
+    "precio_alquiler": 49000,
+    "stock_venta": 4,
+    "stock_alquiler": 2
+  },
+  {
+    "imagen": "Padrericopadrepobre.jpg",
+    "titulo": "Padre Rico, Padre Pobre",
+    "autor": "Robert T. Kiyosaki",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Lecciones sobre educación financiera y cómo hacer que el dinero trabaje para ti.",
+    "precio_venta": 245000,
+    "precio_alquiler": 27000,
+    "stock_venta": 9,
+    "stock_alquiler": 2
+  },
+  {
+    "imagen": "Personavitamina.jpg",
+    "titulo": "Persona Vitamina",
+    "autor": "Marian Rojas Estapé",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Descubre cómo rodearte de personas que te aportan energía positiva.",
+    "precio_venta": 230000,
+    "precio_alquiler": 27000,
+    "stock_venta": 2,
+    "stock_alquiler": 6
+  },
+  {
+    "imagen": "Secretosmentemillonaria.jpg",
+    "titulo": "Secretos de la Mente Millonaria",
+    "autor": "T. Harv Eker",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Descubre los hábitos y creencias de las personas exitosas financieramente.",
+    "precio_venta": 410000,
+    "precio_alquiler": 44000,
+    "stock_venta": 5,
+    "stock_alquiler": 2
+  },
+  {
+    "imagen": "Silocreeslocreas.jpg",
+    "titulo": "Si lo crees, lo creas",
+    "autor": "Brian Tracy",
+    "tipo": ["venta", "alquiler"],
+    "descripcion": "Motivación y técnicas para lograr tus objetivos personales y profesionales.",
+    "precio_venta": 220000,
+    "precio_alquiler": 25000,
+    "stock_venta": 7,
+    "stock_alquiler": 3
+  }
+]

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre BookHub - Grupo 5</title>
+  <link rel="icon" type="image/png" href="../images/LogoBookHub (1).png">
+  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="assets/css/about.css">
+</head>
+<body>
+  <header>
+    <div style="display:flex;align-items:center;height:100%;"><img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:130px;object-fit:contain;"></div>
+    <nav>
+      <span id="user-info" style="display:none;margin-left:1em;"></span>
+      <a href="index.html">Inicio</a>
+      <a href="about.html" class="active-link">About</a>
+      <a href="login.html" id="login-link">Login</a>
+      <a href="register.html" id="register-link">Registro</a>
+      <a href="carrito.html" id="carrito-link">Carrito</a>
+      <button id="logout-btn" style="display:none;margin-left:1em;">Logout</button>
+    </nav>
+  </header>
+  <main>
+    <section class="about-hero about-hero-animated">
+      <canvas id="aboutParticles"></canvas>
+      <div class="about-hero-bg"></div>
+      <div class="about-hero-content animate-hero">
+        <h1 class="about-hero-title">Sobre <span>BookHub</span></h1>
+        <p class="about-hero-desc">Un ecosistema digital para lectores modernos. Compra, alquila y descubre libros en una experiencia ágil, segura y personalizada.</p>
+        <div class="about-hero-values">
+          <div class="about-value-card animate-fade-up" style="--delay:0.1s"><span class="about-value-icon">📚</span><span>Lectura Accesible</span></div>
+          <div class="about-value-card animate-fade-up" style="--delay:0.3s"><span class="about-value-icon">🔒</span><span>Seguridad</span></div>
+          <div class="about-value-card animate-fade-up" style="--delay:0.5s"><span class="about-value-icon">⚡</span><span>Agilidad</span></div>
+          <div class="about-value-card animate-fade-up" style="--delay:0.7s"><span class="about-value-icon">🤝</span><span>Colaboración</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="about-modern about-pulse animate-fade-in">
+      <div class="about-container">
+        <h2 class="about-title animate-fade-up" style="--delay:0.2s"><span>Nuestro Proyecto</span></h2>
+        <div class="about-content">
+          <div class="about-info animate-fade-up" style="--delay:0.4s">
+            <p class="about-objetivo">BookHub es una tienda online de libros creada por el <b>Grupo 5</b> para demostrar una arquitectura web segura, moderna y colaborativa. Nuestro objetivo es facilitar el acceso a la lectura y mostrar buenas prácticas de desarrollo web.</p>
+            <ul class="about-objetivos">
+              <li>Facilitar el acceso a libros físicos y digitales.</li>
+              <li>Mejorar la experiencia de compra y alquiler online.</li>
+              <li>Fomentar la lectura y el desarrollo personal.</li>
+              <li>Demostrar una arquitectura web profesional y segura.</li>
+            </ul>
+          </div>
+          <div class="about-team animate-fade-up" style="--delay:0.6s">
+            <h3 class="about-team-title">Grupo 5</h3>
+            <div class="about-team-cards">
+              <div class="about-member-card animate-flip" style="--delay:0.1s"><span class="about-member-avatar">👨‍💻</span><span>Marco Valdez</span></div>
+              <div class="about-member-card animate-flip" style="--delay:0.2s"><span class="about-member-avatar">👨‍💻</span><span>Tobias Riveros</span></div>
+              <div class="about-member-card animate-flip" style="--delay:0.3s"><span class="about-member-avatar">👨‍💻</span><span>Nestor Zalazar</span></div>
+              <div class="about-member-card animate-flip" style="--delay:0.4s"><span class="about-member-avatar">👩‍💻</span><span>Liz Rocio</span></div>
+              <div class="about-member-card animate-flip" style="--delay:0.5s"><span class="about-member-avatar">👨‍💻</span><span>Cesar Rodas</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="assets/js/aboutParticles.js"></script>
+    <script src="assets/js/aboutBlurScroll.js"></script>
+  </main>
+  <footer>
+    <p>&copy; 2025 <span class="logo">BookHub</span></p>
+  </footer>
+  <script src="assets/js/userSession.js"></script>
+</body>
+</html>

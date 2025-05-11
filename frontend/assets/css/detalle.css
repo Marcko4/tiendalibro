@@ -1,0 +1,53 @@
+body {
+  background: #f7f7f7;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+.detalle-container {
+  background: #fff;
+  max-width: 700px;
+  margin: 3em auto;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  gap: 2em;
+  align-items: flex-start;
+}
+.detalle-img {
+  max-width: 220px;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.11);
+}
+.detalle-info {
+  flex: 1;
+}
+.detalle-info h2 {
+  margin-top: 0;
+  color: #2a3a5a;
+}
+.detalle-info p {
+  margin: 0.5em 0;
+}
+.detalle-info .precios {
+  margin: 1em 0;
+}
+.detalle-info .stock {
+  font-size: 0.98em;
+  color: #666;
+}
+button {
+  background: #2a3a5a;
+  color: #fff;
+  border: none;
+  padding: 0.8em 1.5em;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+  margin-top: 1em;
+}
+button:hover {
+  background: #1f2940;
+}
