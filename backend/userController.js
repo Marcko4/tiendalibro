@@ -1,6 +1,24 @@
 const bcrypt = require("bcryptjs");
 const pool = require("./db");
 
+// Registrar alquiler
+exports.registrarAlquiler = async (req, res) => {
+  try {
+    const { username, titulo, cantidad } = req.body;
+    if (!username || !titulo || !cantidad) {
+      return res.status(400).json({ error: 'Datos incompletos' });
+    }
+    await pool.query(
+      'INSERT INTO alquileres (username, titulo, cantidad) VALUES ($1, $2, $3)',
+      [username, titulo, cantidad]
+    );
+    res.json({ success: true, message: 'Alquiler registrado' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al registrar alquiler' });
+  }
+};
+
 exports.register = async (req, res) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email)

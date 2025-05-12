@@ -52,11 +52,32 @@ window.eliminarDelCarrito = function (idx) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
   renderCarrito();
 };
-document.getElementById("confirmar").onclick = function () {
+document.getElementById("confirmar").onclick = async function () {
   const metodo =
     document.querySelector("input[name=metodoPago]:checked")?.value ||
     "Efectivo";
   localStorage.setItem("metodoPago", metodo);
+
+  // Guardar alquileres en la base de datos
+  const username = localStorage.getItem("username");
+  let carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
+  const alquileres = carrito.filter(item => item.tipo === "alquiler");
+  for (const item of alquileres) {
+    try {
+      await fetch("http://localhost:3000/api/alquiler", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username,
+          titulo: item.titulo,
+          cantidad: item.cantidad || 1
+        })
+      });
+    } catch (err) {
+      // Puedes mostrar un mensaje de error si quieres
+      console.error("Error al registrar alquiler", err);
+    }
+  }
   window.open("factura.html", "_blank");
 };
 document.addEventListener("DOMContentLoaded", renderCarrito);
