@@ -14,6 +14,8 @@ document
       if (data.success) {
         localStorage.removeItem("carrito");
         localStorage.setItem("username", data.username);
+        if (data.rol) localStorage.setItem("rol", data.rol);
+        else localStorage.removeItem("rol");
         window.location.href = "index.html";
       } else {
         alert(data.error || "Error al iniciar sesión");

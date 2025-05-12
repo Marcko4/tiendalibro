@@ -19,6 +19,21 @@ exports.registrarAlquiler = async (req, res) => {
   }
 };
 
+// Obtener todos los alquileres (solo para empleados)
+exports.getAlquileres = async (req, res) => {
+  try {
+    // Permitir por header x-rol o query rol
+    const rol = req.headers['x-rol'] || req.query.rol;
+    if (rol !== 'empleado') {
+      return res.status(403).json({ error: 'Acceso denegado' });
+    }
+    const result = await pool.query('SELECT username, titulo, cantidad, fecha_alquiler FROM alquileres ORDER BY fecha_alquiler DESC');
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener alquileres' });
+  }
+};
+
 exports.register = async (req, res) => {
   const { username, password, email } = req.body;
   if (!username || !password || !email)
@@ -58,7 +73,7 @@ exports.login = async (req, res) => {
       return res
         .status(401)
         .json({ error: "Usuario o contraseña incorrectos" });
-    res.json({ success: true, username: user.rows[0].username });
+    res.json({ success: true, username: user.rows[0].username, rol: user.rows[0].rol });
   } catch (err) {
     res.status(500).json({ error: "Error en el servidor" });
   }
