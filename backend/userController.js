@@ -18,6 +18,29 @@ exports.registrarAlquiler = async (req, res) => {
     res.status(500).json({ error: 'Error al registrar alquiler' });
   }
 };
+// Eliminar alquiler
+exports.eliminarAlquiler = async (req, res) => {
+  const { id } = req.params;  // Obtenemos el id desde los parámetros de la URL
+
+  try {
+    // Realizamos la eliminación de acuerdo al id recibido
+    const result = await pool.query(
+      'DELETE FROM alquileres WHERE id = $1',
+      [id]  // Eliminamos el alquiler que tenga el id correspondiente
+    );
+
+    // Si no se encontró el alquiler, respondemos con error 404
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Alquiler no encontrado' });
+    }
+
+    res.json({ success: true, message: 'Alquiler eliminado' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al eliminar alquiler' });
+  }
+};
+
 
 // Obtener todos los alquileres (solo para empleados)
 exports.getAlquileres = async (req, res) => {

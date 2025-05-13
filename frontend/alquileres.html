@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vista de Alquileres - BookHub</title>
-  <link rel="stylesheet" href="assets/css/index.css">
-  <link rel="stylesheet" href="assets/css/alquileres.css">
-  <link rel="icon" type="image/png" href="../images/LogoBookHub (1).png">
+  <link rel="stylesheet" href="assets/css/index.css" />
+  <link rel="stylesheet" href="assets/css/alquileres.css" />
+  <link rel="icon" type="image/png" href="../images/LogoBookHub (1).png" />
 </head>
 <body>
   <header>
-    <div style="display:flex;align-items:center;height:100%;"><img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:130px;object-fit:contain;"></div>
+    <div style="display:flex;align-items:center;height:100%;">
+      <img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:130px;object-fit:contain;">
+    </div>
     <nav>
       <span id="user-info" style="display:none;margin-left:1em;"></span>
       <a href="index.html">Inicio</a>
@@ -22,15 +24,27 @@
       <button id="logout-btn" style="display:none;margin-left:1em;">Logout</button>
     </nav>
   </header>
+
   <main>
     <section class="alquileres-section">
       <h2>Vista de Alquileres</h2>
+
+      <!-- Filtros para buscar por usuario o título -->
+      <div id="filtros-alquileres" style="margin-bottom: 1em;">
+        <input type="text" id="filtro-usuario" placeholder="Filtrar por usuario" />
+        <input type="text" id="filtro-titulo" placeholder="Filtrar por título" />
+        <button id="btn-filtrar">Filtrar</button>
+      </div>
+
+      <!-- Contenedor de la tabla de alquileres -->
       <div id="alquileres-vista"></div>
     </section>
   </main>
+
   <footer>
     <p>&copy; 2025 <span class="logo">BookHub</span></p>
   </footer>
+
   <script src="assets/js/alquileresVista.js"></script>
   <script src="assets/js/userSession.js"></script>
 </body>
