@@ -1,4 +1,20 @@
-// Script para Vista de Alquileres (solo para empleados)
+function eliminarAlquiler(id) {
+  fetch(`http://localhost:3000/api/alquiler/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Error al eliminar el alquiler');
+    return res.json();
+  })
+  .then(data => {
+    alert(data.message);
+    // Aquí puedes volver a cargar la lista de alquileres si es necesario
+  })
+  .catch(err => {
+    alert(err.message);
+  });
+}
 document.addEventListener("DOMContentLoaded", function () {
   const rol = localStorage.getItem("rol");
   if (rol !== "empleado") return;
@@ -19,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (const a of data) {
         html += `<tr><td>${a.username}</td><td>${a.titulo}</td><td>${a.cantidad}</td><td>${a.fecha_alquiler ? new Date(a.fecha_alquiler).toLocaleString() : ''}</td></tr>`;
       }
-      html += '</tbody></table>';
+      html += `<td><button onclick=\"eliminarAlquiler('${a.id}')\">Eliminar</button></td>`;
       cont.innerHTML = html;
     })
     .catch(() => {

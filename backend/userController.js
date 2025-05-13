@@ -18,9 +18,10 @@ exports.registrarAlquiler = async (req, res) => {
     res.status(500).json({ error: 'Error al registrar alquiler' });
   }
 };
-// Eliminar alquiler
+/* Eliminar alquiler */
 exports.eliminarAlquiler = async (req, res) => {
-  const { id } = req.params;  // Obtenemos el id desde los parámetros de la URL
+  const { id } = req.params; // Obtener el ID desde los parámetros de la URL
+
 
   try {
     // Realizamos la eliminación de acuerdo al id recibido
@@ -50,7 +51,7 @@ exports.getAlquileres = async (req, res) => {
     if (rol !== 'empleado') {
       return res.status(403).json({ error: 'Acceso denegado' });
     }
-    const result = await pool.query('SELECT username, titulo, cantidad, fecha_alquiler FROM alquileres ORDER BY fecha_alquiler DESC');
+    const result = await pool.query('SELECT id, username, titulo, cantidad, fecha_alquiler FROM alquileres ORDER BY fecha_alquiler DESC');
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: 'Error al obtener alquileres' });
