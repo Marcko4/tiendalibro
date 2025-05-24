@@ -57,27 +57,15 @@ document.getElementById("confirmar").onclick = async function () {
     document.querySelector("input[name=metodoPago]:checked")?.value ||
     "Efectivo";
   localStorage.setItem("metodoPago", metodo);
-
-  // Guardar alquileres en la base de datos
-  const username = localStorage.getItem("username");
+  
+  // Obtener el carrito actual
   let carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
-  const alquileres = carrito.filter(item => item.tipo === "alquiler");
-  for (const item of alquileres) {
-    try {
-      await fetch("http://localhost:3000/api/alquiler", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username,
-          titulo: item.titulo,
-          cantidad: item.cantidad || 1
-        })
-      });
-    } catch (err) {
-      // Puedes mostrar un mensaje de error si quieres
-      console.error("Error al registrar alquiler", err);
-    }
-  }
-  window.open("factura.html", "_blank");
+
+  // Generar PDF (que manejará los alquileres)
+  await generatePDF(carrito, metodo);
+
+  // Limpiar carrito
+  localStorage.removeItem("carrito");
+  renderCarrito();
 };
 document.addEventListener("DOMContentLoaded", renderCarrito);

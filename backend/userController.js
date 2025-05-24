@@ -4,18 +4,27 @@ const pool = require("./db");
 // Registrar alquiler
 exports.registrarAlquiler = async (req, res) => {
   try {
-    const { username, titulo, cantidad } = req.body;
-    if (!username || !titulo || !cantidad) {
+    const { username, alquileres } = req.body;
+    if (!username || !alquileres || !Array.isArray(alquileres)) {
       return res.status(400).json({ error: 'Datos incompletos' });
     }
-    await pool.query(
-      'INSERT INTO alquileres (username, titulo, cantidad) VALUES ($1, $2, $3)',
-      [username, titulo, cantidad]
+    
+    // Insertar múltiples alquileres de una vez
+    const values = alquileres.map((alq, idx) => `
+      ($1, $2, $3)
+    `).join(',');
+    
+    const result = await pool.query(
+      `INSERT INTO alquileres (username, titulo, cantidad) 
+       VALUES ${values} RETURNING id`,
+      alquileres.flatMap(alq => [username, alq.titulo, alq.cantidad || 1])
     );
-    res.json({ success: true, message: 'Alquiler registrado' });
+    
+    const alquilerIds = result.rows.map(row => row.id);
+    res.json({ success: true, message: 'Alquileres registrados', alquilerIds });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error al registrar alquiler' });
+    res.status(500).json({ error: 'Error al registrar alquileres' });
   }
 };
 /* Eliminar alquiler */
@@ -44,6 +53,24 @@ exports.eliminarAlquiler = async (req, res) => {
 
 
 // Obtener todos los alquileres (solo para empleados)
+// Obtener un alquiler específico
+exports.getAlquiler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query(
+      'SELECT id, username, titulo, cantidad, fecha_alquiler, factura_path FROM alquileres WHERE id = $1',
+      [id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Alquiler no encontrado' });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener alquiler' });
+  }
+};
+
 exports.getAlquileres = async (req, res) => {
   try {
     // Permitir por header x-rol o query rol
@@ -51,7 +78,7 @@ exports.getAlquileres = async (req, res) => {
     if (rol !== 'empleado') {
       return res.status(403).json({ error: 'Acceso denegado' });
     }
-    const result = await pool.query('SELECT id, username, titulo, cantidad, fecha_alquiler FROM alquileres ORDER BY fecha_alquiler DESC');
+    const result = await pool.query('SELECT id, username, titulo, cantidad, fecha_alquiler, factura_path FROM alquileres ORDER BY fecha_alquiler DESC');
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: 'Error al obtener alquileres' });
