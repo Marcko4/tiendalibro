@@ -78,7 +78,7 @@ function renderDestacados() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("assets/libros.json")
+  fetch("http://localhost:3000/api/libros")
     .then((resp) => resp.json())
     .then((data) => {
       libros = data;

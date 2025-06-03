@@ -4,7 +4,8 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-fetch("assets/libros.json")
+// Cambiar: obtener libros desde el backend
+fetch("http://localhost:3000/api/libros")
   .then((resp) => resp.json())
   .then((libros) => {
     const imgName = getQueryParam("libro");
@@ -15,17 +16,22 @@ fetch("assets/libros.json")
       return;
     }
     let precios = "";
-    if (libro.tipo.includes("venta")) {
-      precios += `<div><label><input type='radio' name='tipoTrans' value='venta' checked> Venta: <b>₲ ${libro.precio_venta.toLocaleString(
-        "es-PY"
-      )}</b> (${libro.stock_venta} en stock)</label></div>`;
+    const tipoArr = Array.isArray(libro.tipo)
+      ? libro.tipo
+      : typeof libro.tipo === "string"
+      ? libro.tipo.split(",").map((t) => t.trim())
+      : [];
+    if (tipoArr.includes("venta")) {
+      precios += `<div><label><input type='radio' name='tipoTrans' value='venta' checked> Venta: <b>₲ ${Number(
+        libro.precio_venta
+      ).toLocaleString("es-PY")}</b> (${libro.stock_venta} en stock)</label></div>`;
     }
-    if (libro.tipo.includes("alquiler")) {
+    if (tipoArr.includes("alquiler")) {
       precios += `<div><label><input type='radio' name='tipoTrans' value='alquiler' ${
-        libro.tipo.length === 1 ? "checked" : ""
-      }> Alquiler: <b>₲ ${libro.precio_alquiler.toLocaleString("es-PY")}</b> (${
-        libro.stock_alquiler
-      } disponibles)</label></div>`;
+        tipoArr.length === 1 ? "checked" : ""
+      }> Alquiler: <b>₲ ${Number(
+        libro.precio_alquiler
+      ).toLocaleString("es-PY")}</b> (${libro.stock_alquiler} disponibles)</label></div>`;
     }
     document.getElementById("detalle-container").innerHTML = `
       <img class="detalle-img" src="../../images/${libro.imagen}" alt="${
@@ -34,7 +40,7 @@ fetch("assets/libros.json")
       <div class="detalle-info">
         <h2>${libro.titulo}</h2>
         <p><b>Autor:</b> ${libro.autor}</p>
-        <p><b>Tipo:</b> ${libro.tipo.join(", ")}</p>
+        <p><b>Tipo:</b> ${tipoArr.join(", ")}</p>
         <p>${libro.descripcion}</p>
         <div class="precios">${precios}</div>
         <div style='margin:10px 0;'>

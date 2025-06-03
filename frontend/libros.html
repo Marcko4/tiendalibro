@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Libros</title>
+    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/libros.css">
+</head>
+<body>
+    <header>
+        <div style="display:flex;align-items:center;height:100%;">
+            <img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:90px;object-fit:contain;">
+        </div>
+        <nav>
+            <span id="user-info" style="display:none;margin-left:1em;"></span>
+            <a href="index.html">Inicio</a>
+            <a href="about.html">About</a>
+            <a href="#" id="alquileres-link" style="display:none;">Vista de alquileres</a>
+            <a href="#" id="libros-admin-link" class="active-link">Administrar Libros</a>
+            <a href="carrito.html" id="carrito-link">Carrito</a>
+            <button id="logout-btn" style="display:none;margin-left:1em;">Logout</button>
+        </nav>
+    </header>
+    <main>
+        <div class="libros-admin-container">
+            <h1>Administrar Libros</h1>
+            <section class="libros-form-section">
+                <h2>Agregar Libro</h2>
+                <form id="agregar-libro-form">
+                    <input type="text" name="titulo" placeholder="Título" required>
+                    <input type="text" name="autor" placeholder="Autor" required>
+                    <input type="file" name="imagen" accept="image/*" required>
+                    <input type="number" name="precio_venta" placeholder="Precio venta" required>
+                    <input type="number" name="precio_alquiler" placeholder="Precio alquiler" required>
+                    <input type="number" name="stock_venta" placeholder="Stock venta" required>
+                    <input type="number" name="stock_alquiler" placeholder="Stock alquiler" required>
+                    <textarea name="descripcion" placeholder="Descripción" required></textarea>
+                    <button type="submit">Agregar</button>
+                </form>
+            </section>
+            <section class="libros-tabla-section">
+                <h2>Libros en la Base de Datos</h2>
+                <table id="tabla-libros">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagen</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Tipo</th>
+                            <th>Precio Venta</th>
+                            <th>Precio Alquiler</th>
+                            <th>Stock Venta</th>
+                            <th>Stock Alquiler</th>
+                            <th style="min-width:110px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Libros aquí -->
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 <span class="logo">BookHub</span></p>
+    </footer>
+    <script src="assets/js/libros.js"></script>
+    <script src="assets/js/userSession.js"></script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
 const pool = require("./db");
+const fs = require('fs');
+const path = require('path');
 
 // Registrar alquiler
 exports.registrarAlquiler = async (req, res) => {
@@ -29,22 +31,34 @@ exports.registrarAlquiler = async (req, res) => {
 };
 /* Eliminar alquiler */
 exports.eliminarAlquiler = async (req, res) => {
-  const { id } = req.params; // Obtener el ID desde los parámetros de la URL
-
-
+  const { id } = req.params;
+  const fs = require('fs');
+  const path = require('path');
   try {
-    // Realizamos la eliminación de acuerdo al id recibido
+    // Buscar el path de la factura antes de eliminar
+    const resultFactura = await pool.query(
+      'SELECT factura_path FROM alquileres WHERE id = $1',
+      [id]
+    );
+    let facturaPath = resultFactura.rows[0]?.factura_path;
+    // Eliminar el alquiler
     const result = await pool.query(
       'DELETE FROM alquileres WHERE id = $1',
-      [id]  // Eliminamos el alquiler que tenga el id correspondiente
+      [id]
     );
-
-    // Si no se encontró el alquiler, respondemos con error 404
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Alquiler no encontrado' });
     }
-
-    res.json({ success: true, message: 'Alquiler eliminado' });
+    // Eliminar el archivo PDF si existe
+    if (facturaPath) {
+      try {
+        fs.unlinkSync(path.resolve(facturaPath));
+      } catch (err) {
+        // Si ya no existe el archivo, no es crítico
+        console.warn('No se pudo eliminar el PDF:', err.message);
+      }
+    }
+    res.json({ success: true, message: 'Alquiler y factura eliminados' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error al eliminar alquiler' });

@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #f7f9fc;
+  margin: 0;
+  color: #2a3a5a;
+}
+main {
+  max-width: 900px;
+  margin: 2.5em auto 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(106,137,204,0.13);
+  padding: 2.5em 2em 2em 2em;
+}
+h1 {
+  color: #6a89cc;
+  font-size: 2.2em;
+  text-align: center;
+  margin-bottom: 1.2em;
+}
+section {
+  margin-bottom: 2.2em;
+}
+#agregar-libro-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  background: #f3f6fb;
+  padding: 1.5em 1em;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(106,137,204,0.07);
+  margin-bottom: 1.5em;
+}
+#agregar-libro-form input,
+#agregar-libro-form textarea {
+  flex: 1 1 220px;
+  padding: 0.7em 1em;
+  border: 1px solid #b8c6e2;
+  border-radius: 8px;
+  font-size: 1.08em;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #fff;
+  margin-bottom: 0.5em;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+#agregar-libro-form input:focus,
+#agregar-libro-form textarea:focus {
+  box-shadow: 0 2px 8px #74b9ff;
+  border: 1.5px solid #6a89cc;
+  outline: none;
+}
+#agregar-libro-form button {
+  background: linear-gradient(90deg, #6a89cc 60%, #2a3a5a 100%);
+  color: #fff;
+  border: none;
+  padding: 0.7em 2.2em;
+  border-radius: 22px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5em;
+  box-shadow: 0 2px 8px rgba(106,137,204,0.10);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+#agregar-libro-form button:hover {
+  background: linear-gradient(90deg, #2a3a5a 60%, #6a89cc 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(44,62,80,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+#tabla-libros {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(106,137,204,0.10);
+  overflow: hidden;
+  margin-top: 1em;
+}
+#tabla-libros th, #tabla-libros td {
+  padding: 0.7em 0.5em;
+  font-size: 1em;
+  text-align: center;
+  vertical-align: middle;
+}
+#tabla-libros th {
+  background: #6a89cc;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+}
+#tabla-libros td {
+  background: #fff;
+  color: #222;
+  border-bottom: 1px solid #e5e9f2;
+}
+#tabla-libros tr:nth-child(even) td {
+  background: #f6f8fc;
+}
+#tabla-libros td img {
+  display: block;
+  margin: 0 auto;
+  width: 50px;
+  border-radius: 6px;
+  border: 1px solid #e5e9f2;
+}
+#tabla-libros button {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.4em 1.2em;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+#tabla-libros button:hover {
+  background: #c0392b;
+  transform: scale(1.06);
+}
+.libros-admin-container {
+  max-width: 950px;
+  margin: 2.5em auto 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 32px rgba(44,62,80,0.09);
+  padding: 2.5em 2em 2.5em 2em;
+  font-family: 'Montserrat', Arial, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.libros-form-section h2, .libros-tabla-section h2 {
+  color: #6a89cc;
+  font-size: 2em;
+  margin-bottom: 1.2em;
+  text-align: center;
+}
+footer {
+  text-align: center;
+  background: linear-gradient(90deg, #2a3a5a 60%, #6a89cc 100%);
+  color: #fff;
+  padding: 1.2em 0 1.2em 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.07em;
+  margin-top: 2.5em;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 -1px 8px rgba(44,62,80,0.07);
+}
+.logo {
+  font-weight: bold;
+  color: #fff;
+}
+header {
+  background: linear-gradient(90deg, #2a3a5a 60%, #6a89cc 100%) !important;
+  color: #fff !important;
+  padding: 1.5em 2em 1.2em 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 18px rgba(44,62,80,0.07);
+}
+nav a, nav button, nav span {
+  text-decoration: none;
+  color: #fff !important;
+  font-size: 1.08em;
+  margin: 0 0.8em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+nav a:hover, nav button:hover {
+  color: #111 !important;
+  background: #fff;
+}
+#logout-btn {
+  background: linear-gradient(90deg, #6a89cc 60%, #2a3a5a 100%);
+  color: #fff;
+  border: none;
+  padding: 0.36em 1.1em;
+  border-radius: 22px;
+  font-size: 1em;
+  font-weight: 600;
+  margin-left: 1em;
+  box-shadow: 0 2px 8px rgba(106,137,204,0.10);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+#logout-btn:hover, #logout-btn:focus {
+  background: linear-gradient(90deg, #2a3a5a 60%, #6a89cc 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(44,62,80,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+#user-info:hover {
+  color: #111 !important;
+  background: #fff;
+}
+@media (max-width: 900px) {
+  #tabla-libros th, #tabla-libros td {
+    font-size: 0.97em;
+    padding: 0.5em 0.1em;
+  }
+}
+@media (max-width: 700px) {
+  #tabla-libros th, #tabla-libros td {
+    font-size: 0.93em;
+    padding: 0.3em 0.05em;
+  }
+}

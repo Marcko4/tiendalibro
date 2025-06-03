@@ -9,6 +9,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const registerLink = document.getElementById("register-link");
   const alquileresLink = document.getElementById("alquileres-link");
   const alquileresVista = document.getElementById("alquileres-vista");
+  const librosAdminLink = document.getElementById("libros-admin-link");
 
   if (username) {
     userInfo.textContent = `Bienvenido, ${username}`; 
@@ -19,6 +20,8 @@ window.addEventListener("DOMContentLoaded", function () {
     if (registerLink) registerLink.style.display = "none";
     if (alquileresLink && rol === "empleado") alquileresLink.style.display = "inline";
     else if (alquileresLink) alquileresLink.style.display = "none";
+    if (librosAdminLink && rol === "empleado") librosAdminLink.style.display = "inline";
+    else if (librosAdminLink) librosAdminLink.style.display = "none";
   } else {
     userInfo.style.display = "none";
     logoutBtn.style.display = "none";
@@ -32,6 +35,13 @@ window.addEventListener("DOMContentLoaded", function () {
     alquileresLink.onclick = function (e) {
       e.preventDefault();
       window.location.href = "alquileres.html";
+    };
+  }
+
+  if (librosAdminLink) {
+    librosAdminLink.onclick = function (e) {
+      e.preventDefault();
+      window.location.href = "libros.html";
     };
   }
 

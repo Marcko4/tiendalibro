@@ -15,7 +15,13 @@ Proyecto colaborativo: tienda de libros online con Node.js, Express, PostgreSQL 
 ```bash
 cd backend
 npm install
+
 ```
+## Instalación paquete postgre de node 
+npm install pg 
+
+## Instalación del middleware de Node.js para la subida de imagenes a la página
+npm install multer
 
 ## Configuración base de datos
 1. Crea una base llamada `tiendalibro` en PostgreSQL.
