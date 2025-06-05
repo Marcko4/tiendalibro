@@ -18,6 +18,18 @@ window.addEventListener("DOMContentLoaded", function () {
     if (carritoLink) carritoLink.style.display = "inline";
     if (loginLink) loginLink.style.display = "none";
     if (registerLink) registerLink.style.display = "none";
+    
+    // Control de visibilidad para la caja de herramientas
+    const toolboxToggle = document.getElementById('toolbox-toggle');
+    const toolbox = document.getElementById('toolbox');
+    if (rol === "empleado") {
+      toolboxToggle.style.display = "block";
+      toolbox.style.display = "flex";
+    } else {
+      toolboxToggle.style.display = "none";
+      toolbox.style.display = "none";
+    }
+    
     if (alquileresLink && rol === "empleado") alquileresLink.style.display = "inline";
     else if (alquileresLink) alquileresLink.style.display = "none";
     if (librosAdminLink && rol === "empleado") librosAdminLink.style.display = "inline";
