@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <th style="border:1px solid #ccc;padding:8px;">Título</th>
           <th style="border:1px solid #ccc;padding:8px;">Cantidad</th>
           <th style="border:1px solid #ccc;padding:8px;">Fecha alquiler</th>
+          <th style="border:1px solid #ccc;padding:8px;">Nro Factura</th>
           <th style="border:1px solid #ccc;padding:8px;">Acción</th>
         </tr>
       </thead>
@@ -48,9 +49,12 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="border:1px solid #ccc;padding:8px;">${a.titulo}</td>
         <td style="border:1px solid #ccc;padding:8px;">${a.cantidad}</td>
         <td style="border:1px solid #ccc;padding:8px;">${a.fecha_alquiler ? new Date(a.fecha_alquiler).toLocaleString() : ''}</td>
+        <td style="border:1px solid #ccc;padding:8px;">${a.factura_path ? a.factura_path.split(/[\/]/).pop().split('-').pop().replace('.pdf', '') : ''}</td>
         <td style="border:1px solid #ccc;padding:8px;">
-          <button class="btn-eliminar" data-id="${a.id}">Eliminar</button>
-          ${a.factura_path ? `<button class="btn-ver-factura" data-id="${a.id}">Ver factura</button>` : ''}
+          <div style="display:flex; gap:10px; justify-content:center;">
+            <button class="btn-eliminar" data-id="${a.id}">Eliminar</button>
+            ${a.factura_path ? `<button class="btn-ver-factura" data-id="${a.id}">Ver factura</button>` : ''}
+          </div>
         </td>
       </tr>`;
     }
@@ -106,16 +110,108 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Filtro
-  document.getElementById("btn-filtrar").addEventListener("click", () => {
-    const usuario = document.getElementById("filtro-usuario").value.toLowerCase();
-    const titulo = document.getElementById("filtro-titulo").value.toLowerCase();
+  // Estilos para los inputs y botones
+  const estiloInput = {
+    padding: '8px 12px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    fontSize: '14px',
+    marginRight: '10px',
+    maxWidth: '200px'
+  };
 
-    const filtrados = alquileresData.filter(a =>
-      a.username.toLowerCase().includes(usuario) &&
-      a.titulo.toLowerCase().includes(titulo)
-    );
+  const estiloBoton = {
+    padding: '8px 16px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    marginRight: '10px'
+  };
+
+  // Estilos específicos para cada tipo de botón
+  const estiloBotonFiltrar = {
+    ...estiloBoton,
+    backgroundColor: '#4CAF50',
+    color: 'white'
+  };
+
+  const estiloBotonEliminar = {
+    ...estiloBoton,
+    backgroundColor: '#f44336',
+    color: 'white'
+  };
+
+  const estiloBotonVerFactura = {
+    ...estiloBoton,
+    backgroundColor: '#2196F3',
+    color: 'white'
+  };
+
+  // Aplicar estilos al botón filtrar existente
+  const botonFiltrar = document.getElementById('btn-filtrar');
+  Object.assign(botonFiltrar.style, estiloBotonFiltrar);
+
+  // Agregar filtro por número de factura
+  const filtroFactura = document.createElement('input');
+  filtroFactura.type = 'text';
+  filtroFactura.id = 'filtro-factura';
+  filtroFactura.placeholder = 'Nro Factura (últimos 4 dígitos)';
+  Object.assign(filtroFactura.style, estiloInput);
+  filtros.insertBefore(filtroFactura, botonFiltrar); // Insertar antes del botón filtrar
+
+  // Alinear los elementos del filtro
+  filtros.style.display = 'flex';
+  filtros.style.flexWrap = 'wrap';
+  filtros.style.justifyContent = 'center';
+  filtros.style.gap = '10px';
+  filtros.style.marginBottom = '20px';
+
+  // Alinear los inputs existentes
+  const inputs = filtros.querySelectorAll('input[type="text"]');
+  inputs.forEach(input => {
+    Object.assign(input.style, estiloInput);
+  });
+
+  // Función para eliminar acentos
+  function eliminarAcentos(str) {
+    return str.normalize('NFD').replace(/\p{Diacritic}/gu, '');
+  }
+
+  // Función para filtrar automáticamente
+  function filtrarAutomaticamente() {
+    const usuario = eliminarAcentos(document.getElementById("filtro-usuario").value.toLowerCase());
+    const titulo = eliminarAcentos(document.getElementById("filtro-titulo").value.toLowerCase());
+    const nroFactura = document.getElementById("filtro-factura").value;
+
+    const filtrados = alquileresData.filter(a => {
+      const matchUsuario = eliminarAcentos(a.username.toLowerCase()).includes(usuario);
+      const matchTitulo = eliminarAcentos(a.titulo.toLowerCase()).includes(titulo);
+      
+      // Si hay número de factura ingresado, verificar los últimos 4 dígitos
+      const matchFactura = !nroFactura || 
+        (a.factura_path && 
+         a.factura_path.split(/[/]/).pop().split('-').pop().replace('.pdf', '').includes(nroFactura));
+
+      return matchUsuario && matchTitulo && matchFactura;
+    });
 
     renderTabla(filtrados);
+  }
+
+  // Agregar evento de escucha para los inputs
+  const inputsFiltro = document.querySelectorAll('#filtros-alquileres input');
+  inputsFiltro.forEach(input => {
+    input.addEventListener('input', (e) => {
+      // Si el input está vacío, mostrar todos los datos
+      if (e.target.value.trim() === '') {
+        renderTabla(alquileresData);
+      } else {
+        filtrarAutomaticamente();
+      }
+    });
   });
+
+  // Mantener el botón filtrar para cuando quieran aplicar múltiples filtros
+  document.getElementById("btn-filtrar").addEventListener("click", filtrarAutomaticamente);
 });

@@ -9,6 +9,11 @@ exports.generateInvoice = async (req, res) => {
   try {
     const { items, total, metodoPago, username } = req.body;
     
+    // Generar nombre único para el archivo
+    const date = new Date().toISOString().split('T')[0];
+    const uniqueNumber = crypto.randomInt(1000, 9999);
+    const fileName = `F-${date}-${uniqueNumber}.pdf`;
+
     // Convertir logo a base64
     const logoBase64 = imageToBase64('images/LogoBookHub (1).png');
     
@@ -111,7 +116,7 @@ exports.generateInvoice = async (req, res) => {
           </div>
 
           <div class="invoice-info">
-            <p><b>Número:</b> F-0001</p>
+            <p><b>Número:</b> ${fileName.replace('.pdf', '')}</p>
             <p><b>Fecha:</b> ${new Date().toLocaleDateString('es-PY')}</p>
             ${items.some(item => item.tipo === 'alquiler') ? 
               `<p><b>Devolver hasta:</b> ${new Date(new Date().setMonth(new Date().getMonth() + 1)).toLocaleDateString('es-PY')}</p>` : ''}
@@ -151,10 +156,6 @@ exports.generateInvoice = async (req, res) => {
       </body>
       </html>
     `;
-
-    // Generar nombre único para el archivo
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const fileName = `factura_${timestamp}.pdf`;
     const filePath = path.join(__dirname, '..', 'facturas', fileName);
 
     // Generar PDF
