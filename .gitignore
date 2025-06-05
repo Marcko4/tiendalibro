@@ -1,4 +1,4 @@
 node_modules/
 facturas/ 
-backend/db.js
+db.js
 images/
