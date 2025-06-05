@@ -13,19 +13,42 @@
             <img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:90px;object-fit:contain;">
         </div>
         <nav>
-            <span id="user-info" style="display:none;margin-left:1em;"></span>
             <a href="index.html">Inicio</a>
             <a href="about.html">About</a>
-            <a href="#" id="alquileres-link" style="display:none;">Vista de alquileres</a>
-            <a href="#" id="libros-admin-link" class="active-link">Administrar Libros</a>
             <a href="carrito.html" id="carrito-link">Carrito</a>
-            <button id="logout-btn" style="display:none;margin-left:1em;">Logout</button>
+            <button id="logout-btn" style="margin-left:1em;">Logout</button>
         </nav>
+        <!-- Caja de herramientas desplegable derecha -->
+        <div id="toolbox-toggle-lib" style="position:fixed;top:40%;right:0;z-index:3000;">
+            <button style="background:#6a89cc;color:#fff;border:none;padding:1em 1.2em 1em 1.5em;border-radius:18px 0 0 18px;font-size:1.2em;font-weight:700;box-shadow:0 2px 8px rgba(44,62,80,0.13);cursor:pointer;">☰ Herramientas</button>
+        </div>
+        <aside id="toolbox-lib" style="position:fixed;top:30%;right:-260px;width:260px;background:linear-gradient(120deg,#6a89cc 70%,#2a3a5a 100%);box-shadow:0 2px 18px rgba(44,62,80,0.13);border-radius:18px 0 0 18px;z-index:3100;transition:right 0.3s;display:flex;flex-direction:column;align-items:center;padding:2em 0;">
+            <button id="close-toolbox-lib" style="position:absolute;top:1.2em;left:1.2em;background:none;border:none;font-size:2em;color:#fff;cursor:pointer;">&times;</button>
+            <a href="alquileres.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Vista de alquileres</a>
+            <a href="libros.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Administrar Libros</a>
+            <a href="informe.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Informe</a>
+        </aside>
+        <script>
+            const toolboxLib = document.getElementById('toolbox-lib');
+            const toolboxToggleLib = document.getElementById('toolbox-toggle-lib');
+            const closeToolboxLib = document.getElementById('close-toolbox-lib');
+            toolboxToggleLib.onclick = function() {
+                toolboxLib.style.right = '0';
+            };
+            closeToolboxLib.onclick = function() {
+                toolboxLib.style.right = '-260px';
+            };
+            document.addEventListener('click', function(e) {
+                if (toolboxLib.style.right === '0px' && !toolboxLib.contains(e.target) && e.target !== toolboxToggleLib && e.target !== toolboxToggleLib.firstElementChild) {
+                    toolboxLib.style.right = '-260px';
+                }
+            });
+        </script>
     </header>
     <main>
         <div class="libros-admin-container">
             <h1>Administrar Libros</h1>
-            <section class="libros-form-section">
+            <section id="libros-admin-section" class="libros-form-section">
                 <h2>Agregar Libro</h2>
                 <form id="agregar-libro-form">
                     <input type="text" name="titulo" placeholder="Título" required>
@@ -53,13 +76,17 @@
                             <th>Precio Alquiler</th>
                             <th>Stock Venta</th>
                             <th>Stock Alquiler</th>
-                            <th style="min-width:110px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- Libros aquí -->
                     </tbody>
                 </table>
+                <div id="paginacion-libros" style="margin:18px 0 0 0;display:flex;justify-content:center;align-items:center;gap:18px;"></div>
+            </section>
+            <section id="informe-stock-section" style="display:none;">
+                <h2>Informe de Stock</h2>
+                <div id="tabla-informe-stock"></div>
             </section>
         </div>
     </main>

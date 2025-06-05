@@ -53,19 +53,21 @@ window.eliminarDelCarrito = function (idx) {
   renderCarrito();
 };
 document.getElementById("confirmar").onclick = async function () {
+  const loader = document.getElementById("loader-carrito");
+  loader.style.display = "flex";
   const metodo =
     document.querySelector("input[name=metodoPago]:checked")?.value ||
     "Efectivo";
   localStorage.setItem("metodoPago", metodo);
-  
-  // Obtener el carrito actual
   let carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
-
-  // Generar PDF (que manejará los alquileres)
-  await generatePDF(carrito, metodo);
-
-  // Limpiar carrito
-  localStorage.removeItem("carrito");
-  renderCarrito();
+  try {
+    // Generar PDF (que manejará los alquileres)
+    await generatePDF(carrito, metodo);
+    // Limpiar carrito
+    localStorage.removeItem("carrito");
+    renderCarrito();
+  } finally {
+    loader.style.display = "none";
+  }
 };
 document.addEventListener("DOMContentLoaded", renderCarrito);

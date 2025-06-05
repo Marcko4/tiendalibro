@@ -121,6 +121,22 @@ section {
   background: #c0392b;
   transform: scale(1.06);
 }
+#tabla-libros .btn-editar {
+  background: #2980b9;
+  color: #fff;
+  border: none;
+  padding: 0.4em 1.2em;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 0.5em;
+  transition: background 0.2s, transform 0.1s;
+}
+#tabla-libros .btn-editar:hover {
+  background: #145a8a;
+  transform: scale(1.06);
+}
 .libros-admin-container {
   max-width: 950px;
   margin: 2.5em auto 0 auto;
@@ -199,6 +215,39 @@ nav a:hover, nav button:hover {
 #user-info:hover {
   color: #111 !important;
   background: #fff;
+}
+#tabla-libros .editable-td {
+  cursor: pointer;
+  position: relative;
+}
+#tabla-libros .editable-td .icono-editar {
+  display: none !important;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px #dbeafe;
+  z-index: 2;
+  transition: box-shadow 0.2s;
+  border: 1.5px solid #b8c6e2;
+}
+#tabla-libros .editable-td:hover .icono-editar {
+  display: inline !important;
+  box-shadow: 0 2px 8px #6a89cc;
+}
+#tabla-libros .editable-td input[type="text"] {
+  font-size: 1em;
+  padding: 0.2em 0.5em;
+  border: 1.5px solid #6a89cc;
+  border-radius: 6px;
+  width: 90%;
+  margin-top: 2px;
 }
 @media (max-width: 900px) {
   #tabla-libros th, #tabla-libros td {

@@ -14,15 +14,21 @@
       <img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:130px;object-fit:contain;">
     </div>
     <nav>
-      <span id="user-info" style="display:none;margin-left:1em;"></span>
       <a href="index.html">Inicio</a>
       <a href="about.html">About</a>
-      <a href="#" id="alquileres-link" style="display:none;">Vista de alquileres</a>
-      <a href="login.html" id="login-link">Login</a>
-      <a href="register.html" id="register-link">Registro</a>
       <a href="carrito.html" id="carrito-link">Carrito</a>
-      <button id="logout-btn" style="display:none;margin-left:1em;">Logout</button>
+      <button id="logout-btn" style="margin-left:1em;">Logout</button>
     </nav>
+    <!-- Caja de herramientas desplegable derecha -->
+   <div id="toolbox-toggle" style="position:fixed;top:40%;right:0;z-index:3000;">
+      <button style="background:#6a89cc;color:#fff;border:none;padding:1em 1.2em 1em 1.5em;border-radius:18px 0 0 18px;font-size:1.2em;font-weight:700;box-shadow:0 2px 8px rgba(44,62,80,0.13);cursor:pointer;">☰ Herramientas</button>
+    </div>
+    <aside id="toolbox" style="position:fixed;top:30%;right:-260px;width:260px;background:linear-gradient(120deg,#6a89cc 70%,#2a3a5a 100%);box-shadow:0 2px 18px rgba(44,62,80,0.13);border-radius:18px 0 0 18px;z-index:3100;transition:right 0.3s;display:flex;flex-direction:column;align-items:center;padding:2em 0;">
+      <button id="close-toolbox" style="position:absolute;top:1.2em;left:1.2em;background:none;border:none;font-size:2em;color:#fff;cursor:pointer;">&times;</button>
+      <a href="alquileres.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Vista de alquileres</a>
+      <a href="libros.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Administrar Libros</a>
+      <a href="informe.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Informe</a>
+    </aside>
   </header>
 
   <main>
@@ -41,9 +47,23 @@
     </section>
   </main>
 
-
-
   <script src="assets/js/alquileresVista.js"></script>
   <script src="assets/js/userSession.js"></script>
+  <script>
+    const toolbox = document.getElementById('toolbox');
+    const toolboxToggle = document.getElementById('toolbox-toggle');
+    const closeToolbox = document.getElementById('close-toolbox');
+    toolboxToggle.onclick = function() {
+      toolbox.style.right = '0';
+    };
+    closeToolbox.onclick = function() {
+      toolbox.style.right = '-260px';
+    };
+    document.addEventListener('click', function(e) {
+      if (toolbox.style.right === '0px' && !toolbox.contains(e.target) && e.target !== toolboxToggle && e.target !== toolboxToggle.firstElementChild) {
+        toolbox.style.right = '-260px';
+      }
+    });
+  </script>
 </body>
 </html>

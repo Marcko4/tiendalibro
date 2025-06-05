@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!cont || !filtros) return;
 
   let alquileresData = [];
+  let paginaActual = 1;
+  const alquileresPorPagina = 5;
 
   fetch("http://localhost:3000/api/alquileres", {
     headers: { "Content-Type": "application/json", "x-rol": rol }
@@ -28,9 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderTabla(data) {
     if (data.length === 0) {
       cont.innerHTML = '<p>No hay alquileres para mostrar.</p>';
+      renderPaginacionAlquileres(0);
       return;
     }
-
+    const inicio = (paginaActual - 1) * alquileresPorPagina;
+    const fin = inicio + alquileresPorPagina;
+    const pageData = data.slice(inicio, fin);
     let html = `<table style='width:100%;border-collapse:collapse;margin-top:1em;'>
       <thead>
         <tr>
@@ -43,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </tr>
       </thead>
       <tbody>`;
-    for (const a of data) {
+    for (const a of pageData) {
       html += `<tr data-id="${a.id}">
         <td style="border:1px solid #ccc;padding:8px;">${a.username}</td>
         <td style="border:1px solid #ccc;padding:8px;">${a.titulo}</td>
@@ -60,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     html += '</tbody></table>';
     cont.innerHTML = html;
+    renderPaginacionAlquileres(data.length);
 
     // Agregar eventos de clic para botones de eliminar y ver factura
     document.querySelectorAll(".btn-eliminar, .btn-ver-factura").forEach(btn => {
@@ -108,6 +114,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     });
+  }
+
+  function renderPaginacionAlquileres(total) {
+    let paginacion = document.getElementById("paginacion-alquileres");
+    if (!paginacion) {
+      paginacion = document.createElement("div");
+      paginacion.id = "paginacion-alquileres";
+      paginacion.style.margin = "18px 0 0 0";
+      paginacion.style.display = "flex";
+      paginacion.style.justifyContent = "center";
+      paginacion.style.alignItems = "center";
+      paginacion.style.gap = "18px";
+      cont.parentNode.appendChild(paginacion);
+    }
+    const totalPaginas = Math.ceil(total / alquileresPorPagina);
+    paginacion.innerHTML = '';
+    if (totalPaginas <= 1) return;
+    const btnAnt = document.createElement("button");
+    btnAnt.textContent = "Anterior";
+    btnAnt.disabled = paginaActual === 1;
+    btnAnt.onclick = () => { paginaActual--; renderTabla(alquileresData); };
+    paginacion.appendChild(btnAnt);
+    const info = document.createElement("span");
+    info.textContent = `Página ${paginaActual} de ${totalPaginas}`;
+    paginacion.appendChild(info);
+    const btnSig = document.createElement("button");
+    btnSig.textContent = "Siguiente";
+    btnSig.disabled = paginaActual === totalPaginas;
+    btnSig.onclick = () => { paginaActual++; renderTabla(alquileresData); };
+    paginacion.appendChild(btnSig);
   }
 
   // Estilos para los inputs y botones
