@@ -115,5 +115,46 @@ app.delete('/api/facturas/:filename', (req, res) => {
   });
 });
 
+// Endpoint para actualizar stock de un libro (PUT /api/libros/:id)
+app.put('/api/libros/:id', async (req, res) => {
+  const { id } = req.params;
+  const { precio_venta, precio_alquiler, stock_venta, stock_alquiler } = req.body;
+  try {
+    // Solo actualiza los campos enviados (parcial)
+    const campos = [];
+    const valores = [];
+    let idx = 1;
+    if (precio_venta !== undefined) {
+      campos.push(`precio_venta = $${idx++}`);
+      valores.push(precio_venta);
+    }
+    if (precio_alquiler !== undefined) {
+      campos.push(`precio_alquiler = $${idx++}`);
+      valores.push(precio_alquiler);
+    }
+    if (stock_venta !== undefined) {
+      campos.push(`stock_venta = $${idx++}`);
+      valores.push(stock_venta);
+    }
+    if (stock_alquiler !== undefined) {
+      campos.push(`stock_alquiler = $${idx++}`);
+      valores.push(stock_alquiler);
+    }
+    if (campos.length === 0) {
+      return res.status(400).json({ error: 'No hay campos para actualizar' });
+    }
+    valores.push(id);
+    const query = `UPDATE libros SET ${campos.join(', ')} WHERE id = $${valores.length} RETURNING *`;
+    const result = await pool.query(query, valores);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Libro no encontrado' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al actualizar libro:', error);
+    res.status(500).json({ error: 'Error al actualizar libro' });
+  }
+});
+
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor backend corriendo en puerto ${PORT}`));

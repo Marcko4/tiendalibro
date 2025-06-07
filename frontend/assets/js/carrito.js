@@ -61,6 +61,21 @@ document.getElementById("confirmar").onclick = async function () {
   localStorage.setItem("metodoPago", metodo);
   let carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
   try {
+    // Descontar stock en la tabla libros según tipo y cantidad
+    for (const item of carrito) {
+      let tipoOperacion = "venta";
+      if (
+        item.tipo === "alquiler" ||
+        item.tipo === "Alquiler" ||
+        (Array.isArray(item.tipo) && item.tipo.includes("alquiler"))
+      ) {
+        tipoOperacion = "alquiler";
+      }
+      // Llama a la función global para descontar stock (debes tenerla en libros.js)
+      if (window.descontarStockLibro) {
+        await window.descontarStockLibro(item.id, tipoOperacion, item.cantidad || 1);
+      }
+    }
     // Generar PDF (que manejará los alquileres)
     await generatePDF(carrito, metodo);
     // Limpiar carrito

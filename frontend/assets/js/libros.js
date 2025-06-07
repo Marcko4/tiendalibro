@@ -272,6 +272,33 @@ async function renderInformeStock() {
   });
 }
 
+// Descontar stock cuando se compra o alquila un libro desde el carrito
+window.descontarStockLibro = async function(id, tipo, cantidad) {
+  // tipo: "venta" o "alquiler"
+  // cantidad: cantidad a descontar
+  const resp = await fetch(`http://localhost:3000/api/libros/${id}`);
+  if (!resp.ok) return;
+  const libro = await resp.json();
+  let nuevoStock;
+  if (tipo === "venta") {
+    nuevoStock = Math.max(0, (Number(libro.stock_venta) || 0) - cantidad);
+    await fetch(`http://localhost:3000/api/libros/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ stock_venta: nuevoStock })
+    });
+  } else if (tipo === "alquiler") {
+    nuevoStock = Math.max(0, (Number(libro.stock_alquiler) || 0) - cantidad);
+    await fetch(`http://localhost:3000/api/libros/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ stock_alquiler: nuevoStock })
+    });
+  }
+  // Opcional: recargar la tabla si quieres ver el cambio reflejado
+  cargarLibros();
+};
+
 // Mostrar la vista correcta al cambiar de sección
 const adminLink = document.getElementById('libros-admin-link');
 const burbuja = document.getElementById('burbuja-admin-libros');
