@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
-  <header>
+  <header style="position:relative;">
     <div style="display:flex;align-items:center;height:100%;"><img src="../images/LogoBookHub (1).png" alt="Logo BookHub" style="height:130px;object-fit:contain;"></div>
     <nav>
       <span id="user-info" style="display:none;margin-left:1em;"></span>
@@ -29,6 +29,9 @@
       <a href="libros.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Administrar Libros</a>
       <a href="informe.html" style="color:#fff;font-size:1.13em;font-weight:600;margin:1.2em 0;text-decoration:none;padding:0.7em 2.2em;border-radius:14px;transition:background 0.2s;display:block;width:80%;text-align:center;">Informe</a>
     </aside>
+    <div id="burbuja-revision" style="display:none;position:absolute;z-index:4000;background:#e74c3c;color:#fff;padding:0.5em 1em;border-radius:12px;font-size:0.7em;font-weight:600;box-shadow:0 2px 8px rgba(231,76,60,0.13);transition:opacity 0.2s;min-width:120px;max-width:180px;text-align:center;">
+      Algunos libros necesitan revisión
+    </div>
   </header>
   <main>
     <section class="carousel-container">
@@ -52,6 +55,8 @@
       const toolbox = document.getElementById('toolbox');
       const toolboxToggle = document.getElementById('toolbox-toggle');
       const closeToolbox = document.getElementById('close-toolbox');
+      const burbuja = document.getElementById('burbuja-revision');
+      const logoutBtn = document.getElementById('logout-btn');
       toolboxToggle.onclick = function() {
         toolbox.style.right = '0';
       };
@@ -63,6 +68,34 @@
           toolbox.style.right = '-260px';
         }
       });
+      // --- Burbuja de revisión de stock para empleados ---
+      (function() {
+        const rol = localStorage.getItem('rol');
+        const username = localStorage.getItem('username');
+        function posicionarBurbuja() {
+          if (logoutBtn && burbuja && logoutBtn.offsetParent !== null) {
+            const rect = logoutBtn.getBoundingClientRect();
+            const headerRect = document.querySelector('header').getBoundingClientRect();
+            burbuja.style.top = (rect.bottom - headerRect.top + 8) + 'px';
+            burbuja.style.left = (rect.right - headerRect.left - burbuja.offsetWidth) + 'px';
+          }
+        }
+        if (rol === 'empleado' && username) {
+          fetch('http://localhost:3000/api/libros')
+            .then(resp => resp.json())
+            .then(libros => {
+              const necesitaRevision = libros.some(l => (Number(l.stock_venta) < 3) || (Number(l.stock_alquiler) < 3));
+              if (necesitaRevision) {
+                burbuja.style.display = 'block';
+                setTimeout(posicionarBurbuja, 100); // Espera a que se muestre
+                window.addEventListener('resize', posicionarBurbuja);
+              }
+            });
+        } else {
+          // Si no es empleado o no hay usuario logueado, nunca mostrar la burbuja
+          burbuja.style.display = 'none';
+        }
+      })();
     </script>
 </body>
 </html>

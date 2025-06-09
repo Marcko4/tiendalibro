@@ -51,7 +51,7 @@ app.get('/api/factura/:filename', (req, res) => {
 
 app.get('/api/libros', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM libros');
+    const result = await pool.query('SELECT * FROM libros ORDER BY id');
     res.json(result.rows);
   } catch (error) {
     console.error('Error al obtener los libros:', error);
@@ -118,41 +118,62 @@ app.delete('/api/facturas/:filename', (req, res) => {
 // Endpoint para actualizar stock de un libro (PUT /api/libros/:id)
 app.put('/api/libros/:id', async (req, res) => {
   const { id } = req.params;
-  const { precio_venta, precio_alquiler, stock_venta, stock_alquiler } = req.body;
+  const { stock_venta, stock_alquiler, modo } = req.body;
   try {
-    // Solo actualiza los campos enviados (parcial)
-    const campos = [];
-    const valores = [];
-    let idx = 1;
-    if (precio_venta !== undefined) {
-      campos.push(`precio_venta = $${idx++}`);
-      valores.push(precio_venta);
+    const libroActual = await pool.query('SELECT stock_venta, stock_alquiler FROM libros WHERE id = $1', [id]);
+    if (libroActual.rows.length === 0) {
+      return res.status(404).json({ error: 'Libro no encontrado' });
     }
-    if (precio_alquiler !== undefined) {
-      campos.push(`precio_alquiler = $${idx++}`);
-      valores.push(precio_alquiler);
+
+    const stockVentaActual = libroActual.rows[0].stock_venta;
+    const stockAlquilerActual = libroActual.rows[0].stock_alquiler;
+
+    let nuevoStockVenta = stockVentaActual;
+    let nuevoStockAlquiler = stockAlquilerActual;
+
+    // Si viene modo 'set', sobrescribir el stock con el valor recibido
+    if (modo === 'set') {
+      if (stock_venta !== undefined) nuevoStockVenta = Number(stock_venta);
+      if (stock_alquiler !== undefined) nuevoStockAlquiler = Number(stock_alquiler);
+    } else {      // Por defecto, restar la cantidad recibida (compra/alquiler)
+      if (stock_venta !== undefined) nuevoStockVenta = stockVentaActual - Number(stock_venta);
+      if (stock_alquiler !== undefined) nuevoStockAlquiler = stockAlquilerActual - Number(stock_alquiler);
     }
-    if (stock_venta !== undefined) {
-      campos.push(`stock_venta = $${idx++}`);
-      valores.push(stock_venta);
+
+    if (nuevoStockVenta < 0 || nuevoStockAlquiler < 0) {
+      return res.status(400).json({ error: 'Stock insuficiente' });
     }
-    if (stock_alquiler !== undefined) {
-      campos.push(`stock_alquiler = $${idx++}`);
-      valores.push(stock_alquiler);
-    }
-    if (campos.length === 0) {
-      return res.status(400).json({ error: 'No hay campos para actualizar' });
-    }
-    valores.push(id);
-    const query = `UPDATE libros SET ${campos.join(', ')} WHERE id = $${valores.length} RETURNING *`;
-    const result = await pool.query(query, valores);
+
+    const result = await pool.query(
+      'UPDATE libros SET stock_venta = $1, stock_alquiler = $2 WHERE id = $3 RETURNING *',
+      [nuevoStockVenta, nuevoStockAlquiler, id]
+    );
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al actualizar el stock:', error);
+    res.status(500).json({ error: 'Error al actualizar el stock' });
+  }
+});
+
+app.put('/api/libros/:id/imagen', upload.single('imagen'), async (req, res) => {
+  const { id } = req.params;
+  if (!req.file) {
+    return res.status(400).json({ error: 'Imagen requerida' });
+  }
+  const imagen = req.file.filename;
+  try {
+    const result = await pool.query(
+      'UPDATE libros SET imagen = $1 WHERE id = $2 RETURNING *',
+      [imagen, id]
+    );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Libro no encontrado' });
     }
     res.json(result.rows[0]);
   } catch (error) {
-    console.error('Error al actualizar libro:', error);
-    res.status(500).json({ error: 'Error al actualizar libro' });
+    console.error('Error al actualizar imagen:', error);
+    res.status(500).json({ error: 'Error al actualizar imagen' });
   }
 });
 

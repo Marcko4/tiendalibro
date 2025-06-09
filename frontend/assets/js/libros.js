@@ -18,6 +18,22 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Error al agregar libro");
     }
   });
+
+  // --- Escucha de evento stock-actualizado para recarga en tiempo real ---
+  window.addEventListener("storage", (e) => {
+    if (e.key === "stock-actualizado") {
+      // Si está visible la sección de administración, recargar libros
+      const adminSection = document.getElementById('libros-admin-section');
+      if (adminSection && adminSection.style.display !== 'none') {
+        cargarLibros();
+      }
+      // Si está visible la sección de informe, recargar informe
+      const informeSection = document.getElementById('informe-stock-section');
+      if (informeSection && informeSection.style.display !== 'none') {
+        renderInformeStock();
+      }
+    }
+  });
 });
 
 let librosData = [];
@@ -177,9 +193,15 @@ form.addEventListener("submit", async (e) => {
   const formData = new FormData(form);
   if (editId) {
     // Editar libro existente
+    // Convertir FormData a objeto
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
     const resp = await fetch(`http://localhost:3000/api/libros/${editId}`, {
       method: "PUT",
-      body: formData
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
     });
     if (resp.ok) {
       form.reset();
@@ -297,6 +319,8 @@ window.descontarStockLibro = async function(id, tipo, cantidad) {
   }
   // Opcional: recargar la tabla si quieres ver el cambio reflejado
   cargarLibros();
+  // Notificar a otras pestañas
+  localStorage.setItem("stock-actualizado", Date.now());
 };
 
 // Mostrar la vista correcta al cambiar de sección

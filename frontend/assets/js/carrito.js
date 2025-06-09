@@ -81,8 +81,32 @@ document.getElementById("confirmar").onclick = async function () {
     // Limpiar carrito
     localStorage.removeItem("carrito");
     renderCarrito();
+    // Notificar a otras vistas (detalle, admin, informe) que el stock fue actualizado
+    localStorage.setItem("stock-actualizado", Date.now());
+    window.dispatchEvent(new Event("stock-actualizado"));
   } finally {
     loader.style.display = "none";
   }
 };
 document.addEventListener("DOMContentLoaded", renderCarrito);
+
+// Se asegura que el stock se descuente en la base de datos al confirmar la compra o alquiler
+async function descontarStockLibro(id, tipo, cantidad) {
+  try {
+    // Siempre enviar la cantidad a descontar y NO el stock final
+    const body = { [`stock_${tipo}`]: cantidad };
+    const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) {
+      console.error(`Error al actualizar el stock del libro con ID ${id}`);
+    }
+  } catch (error) {
+    console.error(`Error de red al intentar actualizar el stock: ${error}`);
+  }
+}
+
+// Actualiza la lógica para llamar a la función descontarStockLibro
+window.descontarStockLibro = descontarStockLibro;

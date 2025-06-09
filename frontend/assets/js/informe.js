@@ -2,15 +2,24 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   cargarLibrosInforme();
+
+  // --- Escucha de evento stock-actualizado para recarga en tiempo real ---
+  window.addEventListener("storage", (e) => {
+    if (e.key === "stock-actualizado") {
+      cargarLibrosInforme();
+    }
+  });
 });
 
 let librosData = [];
 let paginaActual = 1;
-const librosPorPagina = 5;
+const librosPorPagina = 10;
 
 async function cargarLibrosInforme() {
   const resp = await fetch("http://localhost:3000/api/libros");
   librosData = await resp.json();
+  // Ordenar por id ascendente por si acaso
+  librosData.sort((a, b) => Number(a.id) - Number(b.id));
   renderTablaInforme();
 }
 
@@ -80,21 +89,41 @@ function renderTablaInforme() {
         input.onblur = async function() {
           if (input.value !== valorActual && input.value.trim() !== "") {
             const body = {};
-            body[campo] = input.value.trim();
-            const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body)
-            });
-            if (resp.ok) {
-              // Solo actualiza el valor cambiado en la tabla, no recarga toda la tabla
-              span.textContent = input.value.trim();
-              span.style.display = "";
-              input.remove();
+            // Si el campo es stock, enviar el valor final (no la diferencia) y un flag especial
+            if (campo === "stock_venta" || campo === "stock_alquiler") {
+              body[campo] = Number(input.value.trim());
+              body['modo'] = 'set'; // Indica al backend que es una edición manual
+              const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+              });
+              if (resp.ok) {
+                span.textContent = input.value.trim();
+                span.style.display = "";
+                input.remove();
+              } else {
+                alert("Error al actualizar " + campo);
+                span.style.display = "";
+                input.remove();
+              }
             } else {
-              alert("Error al actualizar " + campo);
-              span.style.display = "";
-              input.remove();
+              // Para precio, simplemente actualizar
+              body[campo] = input.value.trim();
+              const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+              });
+              if (resp.ok) {
+                span.textContent = input.value.trim();
+                span.style.display = "";
+                input.remove();
+              } else {
+                alert("Error al actualizar " + campo);
+                span.style.display = "";
+                input.remove();
+              }
             }
           } else {
             span.style.display = "";
