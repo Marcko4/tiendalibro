@@ -179,9 +179,6 @@ app.put('/api/libros/:id/imagen', upload.single('imagen'), async (req, res) => {
 
 // Servir archivos estáticos del frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
-const path = require('path');
-
-// Hacer accesibles las carpetas facturas e imagenes
 app.use('/facturas', express.static(path.join(__dirname, '../facturas')));
 app.use('/imagenes', express.static(path.join(__dirname, '../images')));
 
