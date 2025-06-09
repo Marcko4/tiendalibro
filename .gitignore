@@ -1,3 +1,7 @@
 node_modules/
 facturas/ 
+<<<<<<< HEAD
 
+=======
+db.js
+>>>>>>> 624526d99d990229b7b3d73bc7ce8f58e615f968
