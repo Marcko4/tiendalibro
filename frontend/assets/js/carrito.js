@@ -110,3 +110,6 @@ async function descontarStockLibro(id, tipo, cantidad) {
 
 // Actualiza la lógica para llamar a la función descontarStockLibro
 window.descontarStockLibro = descontarStockLibro;
+document.getElementById("volver-inicio").onclick = function () {
+  window.location.href = "index.html";
+};

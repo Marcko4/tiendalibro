@@ -52,9 +52,7 @@ fetch("http://localhost:3000/api/libros")
       let fueraStock = (ventaFueraStock && (!tipoArr.includes("alquiler") || alquilerFueraStock)) ||
                        (alquilerFueraStock && (!tipoArr.includes("venta") || ventaFueraStock));
       document.getElementById("detalle-container").innerHTML = `
-        <img class="detalle-img" src="../../images/${libro.imagen}" alt="${
-        libro.titulo
-      }">
+        <img class="detalle-img" src="../../images/${libro.imagen}" alt="${libro.titulo}">
         <div class="detalle-info">
           <h2>${libro.titulo}</h2>
           <p><b>Autor:</b> ${libro.autor}</p>
@@ -68,7 +66,10 @@ fetch("http://localhost:3000/api/libros")
                 </div>`
               : `<div style="margin:10px 0;"><span style="color:red;font-weight:bold;">fuera de stock</span></div>`
           }
-          <button id="agregarCarrito" ${fueraStock ? 'disabled style="background:#b2bec3;cursor:not-allowed;"' : ''}>Agregar al carrito</button>
+          <div style="display:flex;gap:18px;margin-top:18px;">
+            <button id="agregarCarrito" ${fueraStock ? 'disabled style="background:#b2bec3;cursor:not-allowed;"' : ''}>Agregar al carrito</button>
+            <button id="volver-inicio" style="background:#2d3a4a;color:#fff;padding:10px 24px;border:none;border-radius:8px;font-size:1.1em;font-weight:600;cursor:pointer;transition:background 0.2s;">Volver al inicio</button>
+          </div>
         </div>
       `;
       document.getElementById("agregarCarrito").onclick = function () {
@@ -109,4 +110,8 @@ fetch("http://localhost:3000/api/libros")
           renderDetalle();
         });
     });
+
+    document.getElementById("volver-inicio").onclick = function () {
+      window.location.href = "index.html";
+    };
   });
