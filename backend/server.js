@@ -115,10 +115,10 @@ app.delete('/api/facturas/:filename', (req, res) => {
   });
 });
 
-// Endpoint para actualizar stock de un libro (PUT /api/libros/:id)
+// Endpoint para actualizar un libro (PUT /api/libros/:id)
 app.put('/api/libros/:id', async (req, res) => {
   const { id } = req.params;
-  const { stock_venta, stock_alquiler, modo } = req.body;
+  const { titulo, autor, tipo, precio_venta, precio_alquiler, descripcion, stock_venta, stock_alquiler, modo } = req.body;
   try {
     const libroActual = await pool.query('SELECT stock_venta, stock_alquiler FROM libros WHERE id = $1', [id]);
     if (libroActual.rows.length === 0) {
@@ -144,10 +144,28 @@ app.put('/api/libros/:id', async (req, res) => {
       return res.status(400).json({ error: 'Stock insuficiente' });
     }
 
-    const result = await pool.query(
-      'UPDATE libros SET stock_venta = $1, stock_alquiler = $2 WHERE id = $3 RETURNING *',
-      [nuevoStockVenta, nuevoStockAlquiler, id]
-    );
+    // Construir la consulta dinámicamente basada en los campos proporcionados
+    const campos = [];
+    const valores = [];
+    let i = 1;
+
+    if (titulo !== undefined) campos.push(`titulo = $${i++}`), valores.push(titulo);
+    if (autor !== undefined) campos.push(`autor = $${i++}`), valores.push(autor);
+    if (tipo !== undefined) campos.push(`tipo = $${i++}`), valores.push(tipo);
+    if (precio_venta !== undefined) campos.push(`precio_venta = $${i++}`), valores.push(precio_venta);
+    if (precio_alquiler !== undefined) campos.push(`precio_alquiler = $${i++}`), valores.push(precio_alquiler);
+    if (descripcion !== undefined) campos.push(`descripcion = $${i++}`), valores.push(descripcion);
+    if (stock_venta !== undefined) campos.push(`stock_venta = $${i++}`), valores.push(nuevoStockVenta);
+    if (stock_alquiler !== undefined) campos.push(`stock_alquiler = $${i++}`), valores.push(nuevoStockAlquiler);
+
+    if (campos.length === 0) {
+      return res.status(400).json({ error: 'No se proporcionaron campos para actualizar' });
+    }
+
+    const query = `UPDATE libros SET ${campos.join(', ')} WHERE id = $${i} RETURNING *`;
+    valores.push(id);
+
+    const result = await pool.query(query, valores);
 
     res.json(result.rows[0]);
   } catch (error) {
@@ -176,6 +194,20 @@ app.put('/api/libros/:id/imagen', upload.single('imagen'), async (req, res) => {
     res.status(500).json({ error: 'Error al actualizar imagen' });
   }
 });
+
+  // Servir archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+
+// Hacer accesibles las carpetas facturas e imagenes
+app.use('/facturas', express.static(path.join(__dirname, '../facturas')));
+app.use('/imagenes', express.static(path.join(__dirname, '../images')));
+
+// Ruta general para que cualquier URL devuelva index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+});
+
 
 
 const PORT = 3000;

@@ -131,7 +131,10 @@ function renderTablaLibros() {
             }
           };
           input.onkeydown = function(e) {
-            if (e.key === "Enter") input.blur();
+            if (e.key === "Enter") {
+              input.blur();
+              e.preventDefault(); // Evitar que el Enter envíe el formulario
+            }
           };
           span.style.display = "none";
           td.appendChild(input);
