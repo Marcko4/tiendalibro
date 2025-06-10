@@ -177,10 +177,6 @@ app.put('/api/libros/:id/imagen', upload.single('imagen'), async (req, res) => {
   }
 });
 
-app.use(express.static(path.join(__dirname, '/frontend')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/frontend/index.html'));
-});
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor backend corriendo en puerto ${PORT}`));
