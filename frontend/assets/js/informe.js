@@ -16,7 +16,7 @@ let paginaActual = 1;
 const librosPorPagina = 10;
 
 async function cargarLibrosInforme() {
-  const resp = await fetch("http://localhost:3000/api/libros");
+  const resp = await fetch("/api/libros");
   librosData = await resp.json();
   // Ordenar por id ascendente por si acaso
   librosData.sort((a, b) => Number(a.id) - Number(b.id));
@@ -93,10 +93,10 @@ function renderTablaInforme() {
             if (campo === "stock_venta" || campo === "stock_alquiler") {
               body[campo] = Number(input.value.trim());
               body['modo'] = 'set'; // Indica al backend que es una edición manual
-              const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+              const resp = await fetch(`/api/libros/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body)
+                body: JSON.stringify(body),
               });
               if (resp.ok) {
                 span.textContent = input.value.trim();
@@ -110,7 +110,7 @@ function renderTablaInforme() {
             } else {
               // Para precio, simplemente actualizar
               body[campo] = input.value.trim();
-              const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+              const resp = await fetch(`/api/libros/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

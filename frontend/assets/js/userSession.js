@@ -12,31 +12,31 @@ window.addEventListener("DOMContentLoaded", function () {
   const librosAdminLink = document.getElementById("libros-admin-link");
 
   if (username) {
-    userInfo.textContent = `Bienvenido, ${username}`; 
-    userInfo.style.display = "inline";
-    logoutBtn.style.display = "inline";
+    if (userInfo) {
+      userInfo.textContent = `Bienvenido, ${username}`;
+      userInfo.style.display = "inline";
+    }
+    if (logoutBtn) logoutBtn.style.display = "inline";
     if (carritoLink) carritoLink.style.display = "inline";
     if (loginLink) loginLink.style.display = "none";
     if (registerLink) registerLink.style.display = "none";
-    
     // Control de visibilidad para la caja de herramientas
     const toolboxToggle = document.getElementById('toolbox-toggle');
     const toolbox = document.getElementById('toolbox');
     if (rol === "empleado") {
-      toolboxToggle.style.display = "block";
-      toolbox.style.display = "flex";
+      if (toolboxToggle) toolboxToggle.style.display = "block";
+      if (toolbox) toolbox.style.display = "flex";
     } else {
-      toolboxToggle.style.display = "none";
-      toolbox.style.display = "none";
+      if (toolboxToggle) toolboxToggle.style.display = "none";
+      if (toolbox) toolbox.style.display = "none";
     }
-    
     if (alquileresLink && rol === "empleado") alquileresLink.style.display = "inline";
     else if (alquileresLink) alquileresLink.style.display = "none";
     if (librosAdminLink && rol === "empleado") librosAdminLink.style.display = "inline";
     else if (librosAdminLink) librosAdminLink.style.display = "none";
   } else {
-    userInfo.style.display = "none";
-    logoutBtn.style.display = "none";
+    if (userInfo) userInfo.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "none";
     if (carritoLink) carritoLink.style.display = "inline";
     if (loginLink) loginLink.style.display = "";
     if (registerLink) registerLink.style.display = "";

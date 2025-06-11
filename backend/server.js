@@ -196,19 +196,19 @@ app.put('/api/libros/:id/imagen', upload.single('imagen'), async (req, res) => {
 });
 
   // Servir archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 
 // Hacer accesibles las carpetas facturas e imagenes
-app.use('/facturas', express.static(path.join(__dirname, '../facturas')));
-app.use('/imagenes', express.static(path.join(__dirname, '../images')));
+app.use('/facturas', express.static(path.join(__dirname, '..', 'facturas')));
+app.use('/imagenes', express.static(path.join(__dirname, '..', 'images')));
 
-// Ruta general para que cualquier URL devuelva index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
+// Ruta general para que cualquier URL devuelva index.html SOLO si no es API, imágenes o facturas
+app.get(/^\/(?!api|images|imagenes|facturas).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
 
 
 const PORT = 3000;
-app.listen(PORT, () => console.log(`Servidor backend corriendo en puerto ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Servidor backend corriendo en puerto http://localhost:${PORT}`));

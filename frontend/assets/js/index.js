@@ -1,6 +1,8 @@
 // Carga dinámica de libros y tarjetas desde libros.json
 let libros = [];
 let current = 0;
+let paginaActual = 1;
+const librosPorPagina = 6;
 
 function renderCarousel() {
   if (!libros.length) return;
@@ -60,7 +62,11 @@ function nextCarousel() {
 
 function renderDestacados() {
   const destacados = document.getElementById("libros-destacados");
-  destacados.innerHTML = libros
+  const totalPaginas = Math.ceil(libros.length / librosPorPagina);
+  const inicio = (paginaActual - 1) * librosPorPagina;
+  const fin = inicio + librosPorPagina;
+  const librosPagina = libros.slice(inicio, fin);
+  destacados.innerHTML = librosPagina
     .map(
       (libro) => `
     <div class="libro-tarjeta destacado-grande" onclick="window.location.href='detalle.html?libro=${encodeURIComponent(
@@ -75,10 +81,28 @@ function renderDestacados() {
   `
     )
     .join("");
+  // Controles de paginación
+  destacados.innerHTML += `<div style="text-align:center;margin-top:1em;">
+    <button id="prev-pag" ${paginaActual === 1 ? "disabled" : ""}>Anterior</button>
+    <span style="margin:0 1em;">Página ${paginaActual} de ${totalPaginas}</span>
+    <button id="next-pag" ${paginaActual === totalPaginas ? "disabled" : ""}>Siguiente</button>
+  </div>`;
+  document.getElementById("prev-pag").onclick = () => {
+    if (paginaActual > 1) {
+      paginaActual--;
+      renderDestacados();
+    }
+  };
+  document.getElementById("next-pag").onclick = () => {
+    if (paginaActual < totalPaginas) {
+      paginaActual++;
+      renderDestacados();
+    }
+  };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("http://localhost:3000/api/libros")
+  fetch("/api/libros")
     .then((resp) => resp.json())
     .then((data) => {
       libros = data;

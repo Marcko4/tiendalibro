@@ -16,7 +16,7 @@ async function generatePDF(carrito, metodoPago) {
         // Si hay alquileres, registrarlos primero
         const alquileres = carrito.filter(item => item.tipo === 'alquiler');
         if (alquileres.length > 0) {
-            const response = await fetch('http://localhost:3000/api/alquiler', {
+            const response = await fetch('/api/alquiler', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ async function generatePDF(carrito, metodoPago) {
         }
 
         // Hacer la petición al backend para generar el PDF
-        const response = await fetch('http://localhost:3000/api/generate-pdf', {
+        const response = await fetch('/api/generate-pdf', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,5 +1,5 @@
 function eliminarAlquiler(id) {
-  fetch(`http://localhost:3000/api/alquiler/${id}`, {
+  fetch(`/api/alquiler/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' }
   })
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (rol !== "empleado") return;
   const cont = document.getElementById("alquileres-vista");
   if (!cont) return;
-  fetch("http://localhost:3000/api/alquileres", {
+  fetch("/api/alquileres", {
     headers: { "Content-Type": "application/json", "x-rol": rol }
   })
     .then(res => res.json())

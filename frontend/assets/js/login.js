@@ -5,7 +5,7 @@ document
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
     try {
-      const res = await fetch("http://localhost:3000/api/login", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

@@ -5,7 +5,7 @@ function getQueryParam(param) {
 }
 
 // Cambiar: obtener libros desde el backend
-fetch("http://localhost:3000/api/libros")
+fetch("/api/libros")
   .then((resp) => resp.json())
   .then((libros) => {
     function renderDetalle() {
@@ -103,7 +103,7 @@ fetch("http://localhost:3000/api/libros")
 
     // Escuchar evento personalizado para recargar el detalle tras confirmar compra/alquiler
     window.addEventListener("stock-actualizado", () => {
-      fetch("http://localhost:3000/api/libros")
+      fetch("/api/libros")
         .then((resp) => resp.json())
         .then((nuevosLibros) => {
           libros.splice(0, libros.length, ...nuevosLibros);

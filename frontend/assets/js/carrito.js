@@ -95,7 +95,7 @@ async function descontarStockLibro(id, tipo, cantidad) {
   try {
     // Siempre enviar la cantidad a descontar y NO el stock final
     const body = { [`stock_${tipo}`]: cantidad };
-    const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+    const resp = await fetch(`/api/libros/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

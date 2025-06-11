@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let paginaActual = 1;
   const alquileresPorPagina = 5;
 
-  fetch("http://localhost:3000/api/alquileres", {
+  fetch("/api/alquileres", {
     headers: { "Content-Type": "application/json", "x-rol": rol }
   })
     .then(res => res.json())
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         if (btn.classList.contains("btn-eliminar")) {
           if (confirm("¿Estás seguro de eliminar este alquiler?")) {
-            fetch(`http://localhost:3000/api/alquileres/${id}`, {
+            fetch(`/api/alquileres/${id}`, {
               method: "DELETE",
               headers: { "Content-Type": "application/json", "x-rol": rol }
             })
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else if (btn.classList.contains("btn-ver-factura")) {
           try {
             // Obtener la información del alquiler
-            const response = await fetch(`http://localhost:3000/api/alquiler/${id}`);
+            const response = await fetch(`/api/alquiler/${id}`);
             if (!response.ok) {
               throw new Error('Error al obtener el alquiler');
             }
@@ -102,8 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (alquiler.factura_path) {
               // Extraer el nombre del archivo del path completo
               const filename = alquiler.factura_path.split(/[\\/]/).pop();
-              // Abrir la factura en una nueva pestaña usando la URL del servidor
-              window.open(`http://localhost:3000/api/factura/${encodeURIComponent(filename)}`, '_blank');
+              // Abrir la factura en una nueva pestaña usando la URL relativa del servidor
+              window.open(`/api/factura/${encodeURIComponent(filename)}`, '_blank');
             } else {
               alert('No hay factura disponible para este alquiler');
             }

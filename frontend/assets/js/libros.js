@@ -1,5 +1,7 @@
 // Lógica para agregar y eliminar libros desde la vista de administración
 
+// Cambiar todas las URLs absolutas a rutas relativas para funcionar en local y en dev tunnel
+
 document.addEventListener("DOMContentLoaded", () => {
   cargarLibros();
 
@@ -7,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const resp = await fetch("http://localhost:3000/api/libros", {
+    const resp = await fetch("/api/libros", {
       method: "POST",
       body: formData
     });
@@ -41,7 +43,7 @@ let paginaActual = 1;
 const librosPorPagina = 5;
 
 async function cargarLibros() {
-  const resp = await fetch("http://localhost:3000/api/libros");
+  const resp = await fetch("/api/libros");
   librosData = await resp.json();
   renderTablaLibros();
 }
@@ -98,7 +100,7 @@ function renderTablaLibros() {
             const formData = new FormData();
             formData.append("imagen", input.files[0]);
             // Solo actualiza imagen
-            const resp = await fetch(`http://localhost:3000/api/libros/${id}/imagen`, {
+            const resp = await fetch(`/api/libros/${id}/imagen`, {
               method: "PUT",
               body: formData
             });
@@ -118,7 +120,7 @@ function renderTablaLibros() {
             if (input.value !== valorActual && input.value.trim() !== "") {
               const body = {};
               body[campo] = input.value.trim();
-              const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+              const resp = await fetch(`/api/libros/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -167,7 +169,7 @@ function renderPaginacionLibros() {
 
 window.editarLibro = function(id) {
   // Buscar el libro actual
-  fetch(`http://localhost:3000/api/libros`)
+  fetch(`/api/libros`)
     .then(resp => resp.json())
     .then(libros => {
       const libro = libros.find(l => l.id === id);
@@ -201,7 +203,7 @@ form.addEventListener("submit", async (e) => {
     formData.forEach((value, key) => {
       data[key] = value;
     });
-    const resp = await fetch(`http://localhost:3000/api/libros/${editId}`, {
+    const resp = await fetch(`/api/libros/${editId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
@@ -216,7 +218,7 @@ form.addEventListener("submit", async (e) => {
     }
   } else {
     // Agregar libro nuevo
-    const resp = await fetch("http://localhost:3000/api/libros", {
+    const resp = await fetch("/api/libros", {
       method: "POST",
       body: formData
     });
@@ -231,7 +233,7 @@ form.addEventListener("submit", async (e) => {
 
 window.eliminarLibro = async function(id) {
   if (!confirm("¿Seguro que deseas eliminar este libro?")) return;
-  const resp = await fetch(`http://localhost:3000/api/libros/${id}`, { method: "DELETE" });
+  const resp = await fetch(`/api/libros/${id}`, { method: "DELETE" });
   if (resp.ok) {
     cargarLibros();
   } else {
@@ -242,7 +244,7 @@ window.eliminarLibro = async function(id) {
 async function renderInformeStock() {
   const cont = document.getElementById("tabla-informe-stock");
   cont.innerHTML = '<div style="text-align:center;padding:1.5em;">Cargando...</div>';
-  const resp = await fetch("http://localhost:3000/api/libros");
+  const resp = await fetch("/api/libros");
   const libros = await resp.json();
   let html = `<table style='width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(106,137,204,0.10);overflow:hidden;'>
     <thead>
@@ -279,7 +281,7 @@ async function renderInformeStock() {
       const stock_venta = tr.children[4].querySelector('input').value;
       const stock_alquiler = tr.children[5].querySelector('input').value;
       const body = { precio_venta, precio_alquiler, stock_venta, stock_alquiler };
-      const resp = await fetch(`http://localhost:3000/api/libros/${id}`, {
+      const resp = await fetch(`/api/libros/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
@@ -301,20 +303,20 @@ async function renderInformeStock() {
 window.descontarStockLibro = async function(id, tipo, cantidad) {
   // tipo: "venta" o "alquiler"
   // cantidad: cantidad a descontar
-  const resp = await fetch(`http://localhost:3000/api/libros/${id}`);
+  const resp = await fetch(`/api/libros/${id}`);
   if (!resp.ok) return;
   const libro = await resp.json();
   let nuevoStock;
   if (tipo === "venta") {
     nuevoStock = Math.max(0, (Number(libro.stock_venta) || 0) - cantidad);
-    await fetch(`http://localhost:3000/api/libros/${id}`, {
+    await fetch(`/api/libros/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ stock_venta: nuevoStock })
     });
   } else if (tipo === "alquiler") {
     nuevoStock = Math.max(0, (Number(libro.stock_alquiler) || 0) - cantidad);
-    await fetch(`http://localhost:3000/api/libros/${id}`, {
+    await fetch(`/api/libros/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ stock_alquiler: nuevoStock })
@@ -329,21 +331,29 @@ window.descontarStockLibro = async function(id, tipo, cantidad) {
 // Mostrar la vista correcta al cambiar de sección
 const adminLink = document.getElementById('libros-admin-link');
 const burbuja = document.getElementById('burbuja-admin-libros');
-adminLink.onclick = function(e) {
-  e.preventDefault();
-  burbuja.style.display = burbuja.style.display === 'block' ? 'none' : 'block';
-};
-document.addEventListener('click', function(e) {
-  if (!adminLink.contains(e.target)) burbuja.style.display = 'none';
-});
-document.getElementById('btn-vista-admin').onclick = function() {
-  document.getElementById('libros-admin-section').style.display = '';
-  document.getElementById('informe-stock-section').style.display = 'none';
-  burbuja.style.display = 'none';
-};
-document.getElementById('btn-vista-informe').onclick = function() {
-  document.getElementById('libros-admin-section').style.display = 'none';
-  document.getElementById('informe-stock-section').style.display = '';
-  renderInformeStock();
-  burbuja.style.display = 'none';
-};
+if (adminLink && burbuja) {
+  adminLink.onclick = function(e) {
+    e.preventDefault();
+    burbuja.style.display = burbuja.style.display === 'block' ? 'none' : 'block';
+  };
+  document.addEventListener('click', function(e) {
+    if (!adminLink.contains(e.target)) burbuja.style.display = 'none';
+  });
+}
+const btnVistaAdmin = document.getElementById('btn-vista-admin');
+const btnVistaInforme = document.getElementById('btn-vista-informe');
+if (btnVistaAdmin) {
+  btnVistaAdmin.onclick = function() {
+    document.getElementById('libros-admin-section').style.display = '';
+    document.getElementById('informe-stock-section').style.display = 'none';
+    if (burbuja) burbuja.style.display = 'none';
+  };
+}
+if (btnVistaInforme) {
+  btnVistaInforme.onclick = function() {
+    document.getElementById('libros-admin-section').style.display = 'none';
+    document.getElementById('informe-stock-section').style.display = '';
+    renderInformeStock();
+    if (burbuja) burbuja.style.display = 'none';
+  };
+}
