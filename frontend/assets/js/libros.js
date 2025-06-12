@@ -21,14 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- Escucha de evento stock-actualizado para recarga en tiempo real ---
+  // --- Escucha de evento stock-actualizado para recarga en tiempo real global ---
   window.addEventListener("storage", (e) => {
     if (e.key === "stock-actualizado") {
-      // Si está visible la sección de administración, recargar libros
-      const adminSection = document.getElementById('libros-admin-section');
-      if (adminSection && adminSection.style.display !== 'none') {
-        cargarLibros();
-      }
+      cargarLibros();
       // Si está visible la sección de informe, recargar informe
       const informeSection = document.getElementById('informe-stock-section');
       if (informeSection && informeSection.style.display !== 'none') {
