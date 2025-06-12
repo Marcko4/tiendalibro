@@ -6,7 +6,7 @@ const fs = require('fs');
 const multer = require('multer');
 const app = express();
 require('dotenv').config();
-const { Pool } = require('pg');
+
 
 
 const pool = new Pool({
