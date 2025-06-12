@@ -7,12 +7,6 @@ const multer = require('multer');
 const app = express();
 require('dotenv').config();
 
-
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
-});
-
 // Crear el directorio de facturas si no existe
 const facturasDir = path.join(__dirname, '..', 'facturas');
 if (!fs.existsSync(facturasDir)) {
