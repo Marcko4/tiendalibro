@@ -5,6 +5,13 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const app = express();
+require('dotenv').config();
+const { Pool } = require('pg');
+
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL
+});
 
 // Crear el directorio de facturas si no existe
 const facturasDir = path.join(__dirname, '..', 'facturas');
