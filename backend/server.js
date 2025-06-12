@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
 const app = express();
-require('dotenv').config();
+
 
 // Crear el directorio de facturas si no existe
 const facturasDir = path.join(__dirname, '..', 'facturas');
