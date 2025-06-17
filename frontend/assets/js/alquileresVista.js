@@ -74,22 +74,15 @@ document.addEventListener("DOMContentLoaded", function () {
         
         if (btn.classList.contains("btn-eliminar")) {
           if (confirm("¿Estás seguro de eliminar este alquiler?")) {
-            // Buscar datos del alquiler antes de eliminar
-            const alquiler = alquileresData.find(a => a.id == id);
             fetch(`/api/alquileres/${id}`, {
               method: "DELETE",
               headers: { "Content-Type": "application/json", "x-rol": rol }
             })
-            .then(async res => {
+            .then(res => {
               if (res.ok) {
-                // Restaurar stock automáticamente
-                if (alquiler && alquiler.titulo && alquiler.cantidad) {
-                  await restaurarStockAlquiler(alquiler.titulo, alquiler.cantidad);
-                }
                 const row = btn.closest("tr");
                 row.remove();
-                // Notificar a otras pestañas para recargar stock
-                localStorage.setItem("stock-actualizado", Date.now());
+                // Ya no se renueva el stock automáticamente
               } else {
                 alert("Error al eliminar el alquiler");
               }
@@ -123,24 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // Función para restaurar stock al eliminar alquiler
-    async function restaurarStockAlquiler(titulo, cantidad) {
-      try {
-        // Buscar el libro por título para obtener su id
-        const resp = await fetch('/api/libros');
-        const libros = await resp.json();
-        const libro = libros.find(l => l.titulo === titulo);
-        if (!libro) return;
-        // Sumar la cantidad al stock de alquiler
-        await fetch(`/api/libros/${libro.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ stock_alquiler: Number(libro.stock_alquiler) + Number(cantidad), modo: 'set' })
-        });
-      } catch (e) {
-        console.error('Error restaurando stock', e);
-      }
-    }
+    // Eliminada la función restaurarStockAlquiler y la notificación de stock-actualizado
   }
 
   function renderPaginacionAlquileres(total) {

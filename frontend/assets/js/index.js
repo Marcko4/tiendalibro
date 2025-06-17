@@ -3,6 +3,7 @@ let libros = [];
 let current = 0;
 let paginaActual = 1;
 const librosPorPagina = 6;
+let filtroBusqueda = '';
 
 function renderCarousel() {
   if (!libros.length) return;
@@ -62,11 +63,21 @@ function nextCarousel() {
 
 function renderDestacados() {
   const destacados = document.getElementById("libros-destacados");
-  const totalPaginas = Math.ceil(libros.length / librosPorPagina);
+  // Filtrar libros por búsqueda
+  let librosFiltrados = libros;
+  if (filtroBusqueda.trim() !== '') {
+    const busq = filtroBusqueda.trim().toLowerCase();
+    librosFiltrados = libros.filter(l =>
+      l.titulo.toLowerCase().includes(busq) ||
+      l.autor.toLowerCase().includes(busq)
+    );
+  }
+  const totalPaginas = Math.ceil(librosFiltrados.length / librosPorPagina) || 1;
+  if (paginaActual > totalPaginas) paginaActual = 1;
   const inicio = (paginaActual - 1) * librosPorPagina;
   const fin = inicio + librosPorPagina;
-  const librosPagina = libros.slice(inicio, fin);
-  destacados.innerHTML = librosPagina
+  const librosPagina = librosFiltrados.slice(inicio, fin);
+  destacados.innerHTML = `<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;">${librosPagina
     .map(
       (libro) => `
     <div class="libro-tarjeta destacado-grande" onclick="window.location.href='detalle.html?libro=${encodeURIComponent(
@@ -80,9 +91,9 @@ function renderDestacados() {
     </div>
   `
     )
-    .join("");
-  // Controles de paginación
-  destacados.innerHTML += `<div style="text-align:center;margin-top:1em;">
+    .join("")}</div>`;
+  // Controles de paginación SIEMPRE debajo
+  destacados.innerHTML += `<div style="width:100%;text-align:center;margin-top:1em;clear:both;">
     <button id="prev-pag" ${paginaActual === 1 ? "disabled" : ""}>Anterior</button>
     <span style="margin:0 1em;">Página ${paginaActual} de ${totalPaginas}</span>
     <button id="next-pag" ${paginaActual === totalPaginas ? "disabled" : ""}>Siguiente</button>
@@ -110,4 +121,13 @@ document.addEventListener("DOMContentLoaded", () => {
       setInterval(nextCarousel, 3000);
       renderDestacados();
     });
+  // Evento para la barra de búsqueda
+  const inputBusqueda = document.getElementById('busqueda-libros');
+  if (inputBusqueda) {
+    inputBusqueda.addEventListener('input', function() {
+      filtroBusqueda = this.value;
+      paginaActual = 1;
+      renderDestacados();
+    });
+  }
 });
