@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <td style="border:1px solid #ccc;padding:8px;">${a.factura_path ? a.factura_path.split(/[\/]/).pop().split('-').pop().replace('.pdf', '') : ''}</td>
         <td style="border:1px solid #ccc;padding:8px;">
           <div style="display:flex; gap:10px; justify-content:center;">
-            <button class="btn-eliminar" data-id="${a.id}">Eliminar</button>
+            <button class="btn-eliminar" data-id="${a.id}">Devolver</button>
             ${a.factura_path ? `<button class="btn-ver-factura" data-id="${a.id}">Ver factura</button>` : ''}
           </div>
         </td>
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const id = btn.getAttribute("data-id");
         
         if (btn.classList.contains("btn-eliminar")) {
-          if (confirm("¿Estás seguro de eliminar este alquiler?")) {
+          if (confirm("¿Estás seguro de devolver este alquiler?")) {
             fetch(`/api/alquileres/${id}`, {
               method: "DELETE",
               headers: { "Content-Type": "application/json", "x-rol": rol }

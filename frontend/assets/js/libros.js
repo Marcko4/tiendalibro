@@ -5,22 +5,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   cargarLibros();
 
-  document.getElementById("agregar-libro-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const resp = await fetch("/api/libros", {
-      method: "POST",
-      body: formData
-    });
-    if (resp.ok) {
-      form.reset();
-      cargarLibros();
-    } else {
-      alert("Error al agregar libro");
-    }
-  });
-
   // --- Escucha de evento stock-actualizado para recarga en tiempo real global ---
   window.addEventListener("storage", (e) => {
     if (e.key === "stock-actualizado") {
