@@ -61,15 +61,20 @@ function nextCarousel() {
   renderCarousel();
 }
 
+// Función para eliminar acentos
+function eliminarAcentos(str) {
+  return str.normalize('NFD').replace(/\p{Diacritic}/gu, '');
+}
+
 function renderDestacados() {
   const destacados = document.getElementById("libros-destacados");
-  // Filtrar libros por búsqueda
+  // Filtrar libros por búsqueda ignorando acentos
   let librosFiltrados = libros;
   if (filtroBusqueda.trim() !== '') {
-    const busq = filtroBusqueda.trim().toLowerCase();
+    const busq = eliminarAcentos(filtroBusqueda.trim().toLowerCase());
     librosFiltrados = libros.filter(l =>
-      l.titulo.toLowerCase().includes(busq) ||
-      l.autor.toLowerCase().includes(busq)
+      eliminarAcentos(l.titulo.toLowerCase()).includes(busq) ||
+      eliminarAcentos(l.autor.toLowerCase()).includes(busq)
     );
   }
   const totalPaginas = Math.ceil(librosFiltrados.length / librosPorPagina) || 1;
